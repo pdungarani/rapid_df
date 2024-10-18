@@ -829,6 +829,50 @@ abstract class Utility {
             : "${formatterDateTime.format(dateTime)}";
   }
 
+  static void showMessage(String? message, MessageType messageType,
+      Function()? onTap, String actionName) {
+    if (message == null || message.isEmpty) return;
+    closeDialog();
+    closeSnackbar();
+    var backgroundColor = Colors.black;
+    switch (messageType) {
+      case MessageType.error:
+        backgroundColor = Colors.red;
+        break;
+      case MessageType.information:
+        backgroundColor = Colors.black.withOpacity(0.3);
+        break;
+      case MessageType.success:
+        backgroundColor = Colors.green;
+        break;
+      default:
+        backgroundColor = Colors.black;
+        break;
+    }
+    Future.delayed(
+      const Duration(seconds: 0),
+      () {
+        Get.rawSnackbar(
+          messageText: Text(
+            '${jsonDecode(message)['message']}',
+            style: const TextStyle(color: Colors.white),
+          ),
+          mainButton: TextButton(
+            onPressed: onTap ?? Get.back,
+            child: Text(
+              actionName,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+          backgroundColor: backgroundColor,
+          margin: const EdgeInsets.all(15.0),
+          borderRadius: 15,
+          snackStyle: SnackStyle.FLOATING,
+        );
+      },
+    );
+  }
+
   static bool timeToNext(sendTime) {
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(sendTime);
 
@@ -899,435 +943,435 @@ abstract class Utility {
   }
 
   /// Image And Video Permssion Cheack
-  static Future<bool> imagePermissionCheack(BuildContext context) async {
-    bool status = false;
-    bool statusVideos = false;
-    bool permanentlyDenied = false;
-    bool permanentlyVideoDenied = false;
-    if (Platform.isAndroid) {
-      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      if (androidInfo.version.sdkInt < 33) {
-        status = await Permission.storage.request().isDenied;
-        permanentlyDenied =
-            await Permission.storage.request().isPermanentlyDenied;
-      } else {
-        status = await Permission.photos.request().isDenied;
-        permanentlyDenied =
-            await Permission.photos.request().isPermanentlyDenied;
-        statusVideos = await Permission.videos.request().isDenied;
-        permanentlyVideoDenied =
-            await Permission.videos.request().isPermanentlyDenied;
-      }
-    } else {
-      status = await Permission.photos.request().isDenied;
-      permanentlyDenied = await Permission.photos.request().isPermanentlyDenied;
-    }
-    if (status || permanentlyDenied || statusVideos || permanentlyVideoDenied) {
-      Get.dialog(
-          barrierDismissible: false,
-          AlertDialog(
-            title: Text(
-              "Permission Needed!",
-              style: Styles.black50018,
-            ),
-            content: Text(
-              "Please give the Photos Permission for uploading the image.",
-              style: Styles.redColor50014,
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  "Allow",
-                  style: Styles.redColor50014,
-                ),
-                onPressed: () async {
-                  Get.back();
-                  await openAppSettings();
-                },
-              ),
-              TextButton(
-                child: Text(
-                  "Deny",
-                  style: Styles.black50014,
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-              )
-            ],
-          ));
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // static Future<bool> imagePermissionCheack(BuildContext context) async {
+  //   bool status = false;
+  //   bool statusVideos = false;
+  //   bool permanentlyDenied = false;
+  //   bool permanentlyVideoDenied = false;
+  //   if (Platform.isAndroid) {
+  //     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  //     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+  //     if (androidInfo.version.sdkInt < 33) {
+  //       status = await Permission.storage.request().isDenied;
+  //       permanentlyDenied =
+  //           await Permission.storage.request().isPermanentlyDenied;
+  //     } else {
+  //       status = await Permission.photos.request().isDenied;
+  //       permanentlyDenied =
+  //           await Permission.photos.request().isPermanentlyDenied;
+  //       statusVideos = await Permission.videos.request().isDenied;
+  //       permanentlyVideoDenied =
+  //           await Permission.videos.request().isPermanentlyDenied;
+  //     }
+  //   } else {
+  //     status = await Permission.photos.request().isDenied;
+  //     permanentlyDenied = await Permission.photos.request().isPermanentlyDenied;
+  //   }
+  // if (status || permanentlyDenied || statusVideos || permanentlyVideoDenied) {
+  //   Get.dialog(
+  //       barrierDismissible: false,
+  //       AlertDialog(
+  //         title: Text(
+  //           "Permission Needed!",
+  //           style: Styles.black50018,
+  //         ),
+  //         content: Text(
+  //           "Please give the Photos Permission for uploading the image.",
+  //           style: Styles.redColor50014,
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: Text(
+  //               "Allow",
+  //               style: Styles.redColor50014,
+  //             ),
+  //             onPressed: () async {
+  //               Get.back();
+  //               await openAppSettings();
+  //             },
+  //           ),
+  //           TextButton(
+  //             child: Text(
+  //               "Deny",
+  //               style: Styles.black50014,
+  //             ),
+  //             onPressed: () {
+  //               Get.back();
+  //             },
+  //           )
+  //         ],
+  //       ));
+  //   return false;
+  // } else {
+  //   return true;
+  // }
+}
 
   /// Camera Permission Chan
-  static Future<bool> cameraPermissionCheack(BuildContext context) async {
-    final status;
-    var permanentlyDenied;
-    status = await Permission.camera.request().isDenied;
-    permanentlyDenied = await Permission.camera.request().isPermanentlyDenied;
-    if (status || permanentlyDenied) {
-      Get.dialog(
-          barrierDismissible: false,
-          AlertDialog(
-            title: Text(
-              "Permission Needed!",
-              style: Styles.black50018,
-            ),
-            content: Text(
-              "Please give the Camera Permission for capture image.",
-              style: Styles.redColor50014,
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  "Allow",
-                  style: Styles.redColor50014,
-                ),
-                onPressed: () async {
-                  Get.back();
-                  await openAppSettings();
-                },
-              ),
-              TextButton(
-                child: Text(
-                  "Deny",
-                  style: Styles.black50014,
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-              )
-            ],
-          ));
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // static Future<bool> cameraPermissionCheack(BuildContext context) async {
+  //   final status;
+  //   var permanentlyDenied;
+  //   status = await Permission.camera.request().isDenied;
+  //   permanentlyDenied = await Permission.camera.request().isPermanentlyDenied;
+  //   if (status || permanentlyDenied) {
+  //     Get.dialog(
+  //         barrierDismissible: false,
+  //         AlertDialog(
+  //           title: Text(
+  //             "Permission Needed!",
+  //             style: Styles.black50018,
+  //           ),
+  //           content: Text(
+  //             "Please give the Camera Permission for capture image.",
+  //             style: Styles.redColor50014,
+  //           ),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               child: Text(
+  //                 "Allow",
+  //                 style: Styles.redColor50014,
+  //               ),
+  //               onPressed: () async {
+  //                 Get.back();
+  //                 await openAppSettings();
+  //               },
+  //             ),
+  //             TextButton(
+  //               child: Text(
+  //                 "Deny",
+  //                 style: Styles.black50014,
+  //               ),
+  //               onPressed: () {
+  //                 Get.back();
+  //               },
+  //             )
+  //           ],
+  //         ));
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 
   /// Audio Permission
-  static Future<bool> audioPermissionCheack(BuildContext context) async {
-    final status;
-    var permanentlyDenied;
-    if (Platform.isAndroid) {
-      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      if (androidInfo.version.sdkInt < 33) {
-        status = await Permission.storage.request().isDenied;
-        permanentlyDenied =
-            await Permission.storage.request().isPermanentlyDenied;
-      } else {
-        status = await Permission.audio.request().isDenied;
-        permanentlyDenied =
-            await Permission.audio.request().isPermanentlyDenied;
-      }
-    } else {
-      status = await Permission.microphone.request().isDenied;
-      permanentlyDenied =
-          await Permission.microphone.request().isPermanentlyDenied;
-    }
-    if (status || permanentlyDenied) {
-      Get.dialog(
-          barrierDismissible: false,
-          AlertDialog(
-            title: Text(
-              "Permission Needed!",
-              style: Styles.black50018,
-            ),
-            content: Text(
-              "Please give the Audio Permission for uploading the audio.",
-              style: Styles.redColor50014,
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  "Allow",
-                  style: Styles.redColor50014,
-                ),
-                onPressed: () async {
-                  Get.back();
-                  await openAppSettings();
-                },
-              ),
-              TextButton(
-                child: Text(
-                  "Deny",
-                  style: Styles.black50014,
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-              )
-            ],
-          ));
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // static Future<bool> audioPermissionCheack(BuildContext context) async {
+  //   final status;
+  //   var permanentlyDenied;
+  //   if (Platform.isAndroid) {
+  //     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  //     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+  //     if (androidInfo.version.sdkInt < 33) {
+  //       status = await Permission.storage.request().isDenied;
+  //       permanentlyDenied =
+  //           await Permission.storage.request().isPermanentlyDenied;
+  //     } else {
+  //       status = await Permission.audio.request().isDenied;
+  //       permanentlyDenied =
+  //           await Permission.audio.request().isPermanentlyDenied;
+  //     }
+  //   } else {
+  //     status = await Permission.microphone.request().isDenied;
+  //     permanentlyDenied =
+  //         await Permission.microphone.request().isPermanentlyDenied;
+  //   }
+  //   if (status || permanentlyDenied) {
+  //     Get.dialog(
+  //         barrierDismissible: false,
+  //         AlertDialog(
+  //           title: Text(
+  //             "Permission Needed!",
+  //             style: Styles.black50018,
+  //           ),
+  //           content: Text(
+  //             "Please give the Audio Permission for uploading the audio.",
+  //             style: Styles.redColor50014,
+  //           ),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               child: Text(
+  //                 "Allow",
+  //                 style: Styles.redColor50014,
+  //               ),
+  //               onPressed: () async {
+  //                 Get.back();
+  //                 await openAppSettings();
+  //               },
+  //             ),
+  //             TextButton(
+  //               child: Text(
+  //                 "Deny",
+  //                 style: Styles.black50014,
+  //               ),
+  //               onPressed: () {
+  //                 Get.back();
+  //               },
+  //             )
+  //           ],
+  //         ));
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 
-  /// Microphone Permission
-  static Future<bool> microphonePermissionCheack(BuildContext context) async {
-    final status;
-    var permanentlyDenied;
-    status = await Permission.microphone.request().isDenied;
-    permanentlyDenied =
-        await Permission.microphone.request().isPermanentlyDenied;
-    // }
-    if (status || permanentlyDenied) {
-      Get.dialog(
-          barrierDismissible: false,
-          AlertDialog(
-            title: Text(
-              "Permission Needed!",
-              style: Styles.black50018,
-            ),
-            content: Text(
-              "Please give the Microphone Permission for voice call.",
-              style: Styles.redColor50014,
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  "Allow",
-                  style: Styles.redColor50014,
-                ),
-                onPressed: () async {
-                  Get.back();
-                  await openAppSettings();
-                },
-              ),
-              TextButton(
-                child: Text(
-                  "Deny",
-                  style: Styles.black50014,
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-              )
-            ],
-          ));
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // /// Microphone Permission
+  // static Future<bool> microphonePermissionCheack(BuildContext context) async {
+  //   final status;
+  //   var permanentlyDenied;
+  //   status = await Permission.microphone.request().isDenied;
+  //   permanentlyDenied =
+  //       await Permission.microphone.request().isPermanentlyDenied;
+  //   // }
+  //   if (status || permanentlyDenied) {
+  //     Get.dialog(
+  //         barrierDismissible: false,
+  //         AlertDialog(
+  //           title: Text(
+  //             "Permission Needed!",
+  //             style: Styles.black50018,
+  //           ),
+  //           content: Text(
+  //             "Please give the Microphone Permission for voice call.",
+  //             style: Styles.redColor50014,
+  //           ),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               child: Text(
+  //                 "Allow",
+  //                 style: Styles.redColor50014,
+  //               ),
+  //               onPressed: () async {
+  //                 Get.back();
+  //                 await openAppSettings();
+  //               },
+  //             ),
+  //             TextButton(
+  //               child: Text(
+  //                 "Deny",
+  //                 style: Styles.black50014,
+  //               ),
+  //               onPressed: () {
+  //                 Get.back();
+  //               },
+  //             )
+  //           ],
+  //         ));
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 
-  /// FilePicker Permission
-  static Future<bool> filePickPermissionCheack() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    final status;
-    var permanentlyDenied;
-    if (Platform.isIOS) {
-      status = await Permission.storage.request().isDenied;
-      permanentlyDenied =
-          await Permission.storage.request().isPermanentlyDenied;
-    } else {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+  // /// FilePicker Permission
+  // static Future<bool> filePickPermissionCheack() async {
+  //   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  //   final status;
+  //   var permanentlyDenied;
+  //   if (Platform.isIOS) {
+  //     status = await Permission.storage.request().isDenied;
+  //     permanentlyDenied =
+  //         await Permission.storage.request().isPermanentlyDenied;
+  //   } else {
+  //     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
 
-      if (androidInfo.version.sdkInt < 33) {
-        status = await Permission.storage.request().isDenied;
-        permanentlyDenied =
-            await Permission.storage.request().isPermanentlyDenied;
-      } else {
-        status = await Permission.photos.request().isDenied;
-        permanentlyDenied =
-            await Permission.photos.request().isPermanentlyDenied;
-      }
-    }
-    if (status || permanentlyDenied) {
-      Get.dialog(
-        barrierDismissible: false,
-        AlertDialog(
-          title: Text(
-            "Permission Needed!",
-            style: Styles.black50018,
-          ),
-          content: Text(
-            "Please give the Storage Permission for uploading the File.",
-            style: Styles.redColor50014,
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(
-                "Allow",
-                style: Styles.redColor50014,
-              ),
-              onPressed: () async {
-                Get.back();
-                await openAppSettings();
-              },
-            ),
-            TextButton(
-              child: Text(
-                "Deny",
-                style: Styles.black50014,
-              ),
-              onPressed: () {
-                Get.back();
-              },
-            )
-          ],
-        ),
-      );
-      return false;
-    } else {
-      return true;
-    }
-  }
+  //     if (androidInfo.version.sdkInt < 33) {
+  //       status = await Permission.storage.request().isDenied;
+  //       permanentlyDenied =
+  //           await Permission.storage.request().isPermanentlyDenied;
+  //     } else {
+  //       status = await Permission.photos.request().isDenied;
+  //       permanentlyDenied =
+  //           await Permission.photos.request().isPermanentlyDenied;
+  //     }
+  //   }
+  //   if (status || permanentlyDenied) {
+  //     Get.dialog(
+  //       barrierDismissible: false,
+  //       AlertDialog(
+  //         title: Text(
+  //           "Permission Needed!",
+  //           style: Styles.black50018,
+  //         ),
+  //         content: Text(
+  //           "Please give the Storage Permission for uploading the File.",
+  //           style: Styles.redColor50014,
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: Text(
+  //               "Allow",
+  //               style: Styles.redColor50014,
+  //             ),
+  //             onPressed: () async {
+  //               Get.back();
+  //               await openAppSettings();
+  //             },
+  //           ),
+  //           TextButton(
+  //             child: Text(
+  //               "Deny",
+  //               style: Styles.black50014,
+  //             ),
+  //             onPressed: () {
+  //               Get.back();
+  //             },
+  //           )
+  //         ],
+  //       ),
+  //     );
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 
-  /// Location Permission
-  static Future<bool> locationPermissionCheack() async {
-    final status = await Permission.locationWhenInUse.request().isDenied;
-    var permanentlyDenied =
-        await Permission.locationWhenInUse.request().isPermanentlyDenied;
-    if (status || permanentlyDenied) {
-      // ignore: use_build_context_synchronously
-      Get.dialog(
-          barrierDismissible: false,
-          AlertDialog(
-            title: Text(
-              "Permission Needed!",
-              style: Styles.black50018,
-            ),
-            content: Text(
-              "Please give the Location Permission for Current Location.",
-              style: Styles.redColor50014,
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  "Allow",
-                  style: Styles.redColor50014,
-                ),
-                onPressed: () async {
-                  Get.back();
-                  await openAppSettings();
-                },
-              ),
-              TextButton(
-                child: Text(
-                  "Deny",
-                  style: Styles.black50014,
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-              )
-            ],
-          ));
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // /// Location Permission
+  // static Future<bool> locationPermissionCheack() async {
+  //   final status = await Permission.locationWhenInUse.request().isDenied;
+  //   var permanentlyDenied =
+  //       await Permission.locationWhenInUse.request().isPermanentlyDenied;
+  //   if (status || permanentlyDenied) {
+  //     // ignore: use_build_context_synchronously
+  //     Get.dialog(
+  //         barrierDismissible: false,
+  //         AlertDialog(
+  //           title: Text(
+  //             "Permission Needed!",
+  //             style: Styles.black50018,
+  //           ),
+  //           content: Text(
+  //             "Please give the Location Permission for Current Location.",
+  //             style: Styles.redColor50014,
+  //           ),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               child: Text(
+  //                 "Allow",
+  //                 style: Styles.redColor50014,
+  //               ),
+  //               onPressed: () async {
+  //                 Get.back();
+  //                 await openAppSettings();
+  //               },
+  //             ),
+  //             TextButton(
+  //               child: Text(
+  //                 "Deny",
+  //                 style: Styles.black50014,
+  //               ),
+  //               onPressed: () {
+  //                 Get.back();
+  //               },
+  //             )
+  //           ],
+  //         ));
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 
-  /// Contact Permission
-  static Future<bool> contactPermissionCheack() async {
-    final status = await Permission.contacts.request().isDenied;
-    var permanentlyDenied =
-        await Permission.contacts.request().isPermanentlyDenied;
-    if (status || permanentlyDenied) {
-      // ignore: use_build_context_synchronously
-      Get.dialog(
-          barrierDismissible: false,
-          AlertDialog(
-            title: Text(
-              "Permission Needed!",
-              style: Styles.black50018,
-            ),
-            content: Text(
-              "Please give the Contacts Permission for get contact.",
-              style: Styles.redColor50014,
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  "Allow",
-                  style: Styles.redColor50014,
-                ),
-                onPressed: () async {
-                  Get.back();
-                  await openAppSettings();
-                },
-              ),
-              TextButton(
-                child: Text(
-                  "Deny",
-                  style: Styles.black50014,
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-              )
-            ],
-          ));
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // /// Contact Permission
+  // static Future<bool> contactPermissionCheack() async {
+  //   final status = await Permission.contacts.request().isDenied;
+  //   var permanentlyDenied =
+  //       await Permission.contacts.request().isPermanentlyDenied;
+  //   if (status || permanentlyDenied) {
+  //     // ignore: use_build_context_synchronously
+  //     Get.dialog(
+  //         barrierDismissible: false,
+  //         AlertDialog(
+  //           title: Text(
+  //             "Permission Needed!",
+  //             style: Styles.black50018,
+  //           ),
+  //           content: Text(
+  //             "Please give the Contacts Permission for get contact.",
+  //             style: Styles.redColor50014,
+  //           ),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               child: Text(
+  //                 "Allow",
+  //                 style: Styles.redColor50014,
+  //               ),
+  //               onPressed: () async {
+  //                 Get.back();
+  //                 await openAppSettings();
+  //               },
+  //             ),
+  //             TextButton(
+  //               child: Text(
+  //                 "Deny",
+  //                 style: Styles.black50014,
+  //               ),
+  //               onPressed: () {
+  //                 Get.back();
+  //               },
+  //             )
+  //           ],
+  //         ));
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 
-  /// Notification Permission
-  static Future<bool> notificationPermissionCheack() async {
-    final status = await Permission.notification.request().isDenied;
-    var permanentlyDenied =
-        await Permission.notification.request().isPermanentlyDenied;
-    if (status || permanentlyDenied) {
-      // ignore: use_build_context_synchronously
-      Get.dialog(
-          barrierDismissible: false,
-          AlertDialog(
-            title: Text(
-              "Permission Needed!",
-              style: Styles.black50018,
-            ),
-            content: Text(
-              "Please give the Notification Permission for notification.",
-              style: Styles.redColor50014,
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  "Allow",
-                  style: Styles.redColor50014,
-                ),
-                onPressed: () async {
-                  Get.back();
-                  await openAppSettings();
-                },
-              ),
-              TextButton(
-                child: Text(
-                  "Deny",
-                  style: Styles.black50014,
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-              )
-            ],
-          ));
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // /// Notification Permission
+  // static Future<bool> notificationPermissionCheack() async {
+  //   final status = await Permission.notification.request().isDenied;
+  //   var permanentlyDenied =
+  //       await Permission.notification.request().isPermanentlyDenied;
+  //   if (status || permanentlyDenied) {
+  //     // ignore: use_build_context_synchronously
+  //     Get.dialog(
+  //         barrierDismissible: false,
+  //         AlertDialog(
+  //           title: Text(
+  //             "Permission Needed!",
+  //             style: Styles.black50018,
+  //           ),
+  //           content: Text(
+  //             "Please give the Notification Permission for notification.",
+  //             style: Styles.redColor50014,
+  //           ),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               child: Text(
+  //                 "Allow",
+  //                 style: Styles.redColor50014,
+  //               ),
+  //               onPressed: () async {
+  //                 Get.back();
+  //                 await openAppSettings();
+  //               },
+  //             ),
+  //             TextButton(
+  //               child: Text(
+  //                 "Deny",
+  //                 style: Styles.black50014,
+  //               ),
+  //               onPressed: () {
+  //                 Get.back();
+  //               },
+  //             )
+  //           ],
+  //         ));
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 
   // Image Fix Size Upload
-  static double getImageSizeMB(String filePath) {
-    var file = File(filePath);
-    final bytes = file.readAsBytesSync().lengthInBytes;
-    final kb = bytes / 1024;
-    final mb = kb / 1024;
-    return mb;
-  }
-}
+  // static double getImageSizeMB(String filePath) {
+  //   var file = File(filePath);
+  //   final bytes = file.readAsBytesSync().lengthInBytes;
+  //   final kb = bytes / 1024;
+  //   final mb = kb / 1024;
+  //   return mb;
+  // }
+// }
 
 // Widget Loader() {
 //   return Center(

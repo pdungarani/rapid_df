@@ -38,7 +38,7 @@
 		</data>
 		<key>Modules/image_gallery_saver.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		S43zFR31GtCmUv1cAblZx5D5Bhk=
+		KC0hLWTS/iV8cZ8pNAiO3Y9FJos=
 		</data>
 		<key>Modules/image_gallery_saver.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
@@ -50,7 +50,7 @@
 		</data>
 		<key>Modules/image_gallery_saver.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		R1K21fDmRqKz+xY713bBai6IJXI=
+		6bx8Q7PWRbaGYnJhDuoARwkD+Bk=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -112,7 +112,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			+VcNZkjqaq4Ty13qySX8sa3Ys0fDLY0AgTUVSmgNd7o=
+			yn5n+WWcaBM/DfxRwisf7+IvJBEMFJp3F/jyKO8SiRE=
 			</data>
 		</dict>
 		<key>Modules/image_gallery_saver.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
@@ -133,7 +133,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			7h/+wM6yvFsbZPIqRvnFOWOsN1a7cXXZ+uNirfMdvu0=
+			830GbQwL6C2VdWGPvtzaLnmFcCKEfeL7EP1RShKIy0k=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

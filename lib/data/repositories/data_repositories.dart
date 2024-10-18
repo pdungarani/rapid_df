@@ -64,4 +64,17 @@ class DataRepository extends DomainRepository {
   /// API to get the IP of the user
   @override
   Future<String> getIp() async => await connectHelper.getIp();
+
+  Future<ResponseModel> login({
+    required String username,
+    required String password,
+    required String fcmToken,
+    bool isLoading = false,
+  }) async =>
+      connectHelper.login(
+        username: username,
+        password: password,
+        fcmToken: fcmToken,
+        isLoading: isLoading,
+      );
 }

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:final_df/app/pages/pages.dart';
 import 'package:final_df/app/theme/colors_value.dart';
 import 'package:final_df/app/theme/dimens.dart';
-import 'package:final_df/app/theme/styles.dart';
 import 'package:final_df/app/utils/utils.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -14,21 +13,21 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(builder: (controller) {
       return Scaffold(
-        backgroundColor: ColorsValue.appBg,
+        backgroundColor: ColorsValue.blackColor,
         appBar: AppBar(
-          backgroundColor: ColorsValue.appBg,
+          backgroundColor: ColorsValue.blackColor,
           automaticallyImplyLeading: false,
           centerTitle: false,
           title: Text(
             "${'hi'.tr}Harsh Ramani",
-            style: Styles.txtBlackColorW70020,
+            // style: Styles.txtBlackColorW70020,
           ),
           actions: [
             Padding(
               padding: Dimens.edgeInsetsRight10,
               child: InkWell(
                 child: SvgPicture.asset(
-                  AssetConstants.ic_search,
+                  AssetConstants.applogo,
                 ),
               ),
             ),
@@ -36,7 +35,7 @@ class HomeScreen extends StatelessWidget {
               padding: Dimens.edgeInsetsRight10,
               child: InkWell(
                 child: SvgPicture.asset(
-                  AssetConstants.ic_notification,
+                  AssetConstants.applogo,
                 ),
               ),
             ),
@@ -44,7 +43,7 @@ class HomeScreen extends StatelessWidget {
               padding: Dimens.edgeInsetsRight10,
               child: InkWell(
                 child: SvgPicture.asset(
-                  AssetConstants.ic_like,
+                  AssetConstants.applogo,
                 ),
               ),
             ),

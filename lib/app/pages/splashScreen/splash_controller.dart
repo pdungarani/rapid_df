@@ -10,7 +10,9 @@ class SplashController extends GetxController {
   void onInit() {
     super.onInit();
     Future.delayed(const Duration(seconds: 2)).then(
-      (value) {},
+      (value) {
+        RouteManagement.goToLoginScreen();
+      },
     );
   }
 }

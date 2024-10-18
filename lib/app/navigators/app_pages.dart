@@ -15,11 +15,18 @@ class AppPages {
       binding: SplashBinding(),
       transition: Transition.fadeIn,
     ),
-    GetPage<LoginScreen>(
+    GetPage<LogingScreenMobile>(
       name: _Paths.loginScreen,
       transitionDuration: transitionDuration,
-      page: LoginScreen.new,
+      page: LogingScreenMobile.new,
       binding: LoginBinding(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage<HomeScreen>(
+      name: _Paths.homeScreen,
+      transitionDuration: transitionDuration,
+      page: HomeScreen.new,
+      binding: HomeBinding(),
       transition: Transition.fadeIn,
     ),
   ];

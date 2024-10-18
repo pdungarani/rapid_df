@@ -1,7 +1,10 @@
 import 'dart:async';
 
+import 'package:final_df/app/utils/utils.dart';
 import 'package:final_df/data/repositories/repositories.dart';
 import 'package:final_df/device/device.dart';
+import 'package:final_df/domain/entities/entities.dart';
+import 'package:final_df/domain/models/login_model.dart';
 
 /// The main repository which will get the data from [DeviceRepository] or the
 /// [DataRepository].
@@ -136,6 +139,34 @@ class Repository {
       _deviceRepository.deleteAllSecuredValues();
     } catch (_) {
       _dataRepository.deleteAllSecuredValues();
+    }
+  }
+
+  Future<LoginModel?> login({
+    required String username,
+    required String password,
+    required String fcmToken,
+    bool isLoading = false,
+  }) async {
+    try {
+      var response = await _dataRepository.login(
+        username: username,
+        password: password,
+        fcmToken: fcmToken,
+        isLoading: isLoading,
+      );
+      var logingModel = loginModelFromJson(response.data);
+      if (logingModel.status == 200) {
+        return logingModel;
+      } else {
+        Utility.showMessage(
+            logingModel.message.toString(), MessageType.error, () => null, '');
+        return logingModel;
+      }
+    } catch (_) {
+      Utility.closeDialog();
+      UnimplementedError();
+      return null;
     }
   }
 

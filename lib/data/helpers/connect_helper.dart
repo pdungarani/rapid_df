@@ -5,6 +5,8 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:final_df/app/app.dart';
 import 'package:final_df/data/helpers/helpers.dart';
+import 'package:final_df/domain/domain.dart';
+import 'package:final_df/domain/models/models.dart';
 import 'package:get/get.dart';
 
 /// The helper class which will connect to the world to get the data.
@@ -73,5 +75,26 @@ class ConnectHelper {
       return ip.isNotEmpty ? ip : '0.0.0.0';
     }
     return '0.0.0.0';
+  }
+
+  Future<ResponseModel> login({
+    required String username,
+    required String password,
+    required String fcmToken,
+    bool isLoading = false,
+  }) async {
+    var data = {
+      'username': username,
+      'password': password,
+      // 'fcm_token': fcmToken,
+    };
+    var response = await apiWrapper.makeRequest(
+      EndPoints.loging,
+      Request.post,
+      data,
+      isLoading,
+      Utility.commonHeader(isDefaultAuthorizationKeyAdd: false),
+    );
+    return response;
   }
 }

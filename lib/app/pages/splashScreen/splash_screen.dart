@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:final_df/app/app.dart';
+
+import '../../app.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -8,14 +9,17 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SplashController>(
-      builder: (context) {
-        return Scaffold(
-          backgroundColor: ColorsValue.whiteColor,
-          body: const Center(
-            child: Text("splash data"),
+      builder: (controller) => Scaffold(
+        backgroundColor: ColorsValue.whiteColor,
+        body: Center(
+          child: Image.asset(
+            AssetConstants.splashScreen,
+            fit: BoxFit.cover,
+            repeat: ImageRepeat.noRepeat,
+            width: double.maxFinite,
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

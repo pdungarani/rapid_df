@@ -1,3 +1,3 @@
 class EndPoints {
-  // static String postSignOut = 'signOut';
+  static String loging = 'user/login';
 }
