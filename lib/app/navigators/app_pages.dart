@@ -29,5 +29,19 @@ class AppPages {
       binding: HomeBinding(),
       transition: Transition.fadeIn,
     ),
+    GetPage<ItemScreen>(
+      name: _Paths.itemScreen,
+      transitionDuration: transitionDuration,
+      page: ItemScreen.new,
+      binding: ItemBinding(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage<ItemListScreen>(
+      name: _Paths.itemListScreen,
+      transitionDuration: transitionDuration,
+      page: ItemListScreen.new,
+      binding: ItemBinding(),
+      transition: Transition.fadeIn,
+    ),
   ];
 }
