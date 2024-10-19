@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:final_df/app/app.dart';
 import 'package:final_df/data/helpers/helpers.dart';
 import 'package:final_df/domain/domain.dart';
-import 'package:final_df/domain/models/models.dart';
 import 'package:get/get.dart';
 
 /// The helper class which will connect to the world to get the data.
@@ -94,6 +93,19 @@ class ConnectHelper {
       data,
       isLoading,
       Utility.commonHeader(isDefaultAuthorizationKeyAdd: false),
+    );
+    return response;
+  }
+
+  Future<ResponseModel> getProfile({
+    bool isLoading = false,
+  }) async {
+    var response = await apiWrapper.makeRequest(
+      EndPoints.getProfile,
+      Request.get,
+      null,
+      isLoading,
+      Utility.commonHeader(),
     );
     return response;
   }

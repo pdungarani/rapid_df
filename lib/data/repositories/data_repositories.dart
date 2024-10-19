@@ -1,4 +1,3 @@
-
 import 'package:final_df/data/data.dart';
 import 'package:final_df/domain/domain.dart';
 
@@ -75,6 +74,13 @@ class DataRepository extends DomainRepository {
         username: username,
         password: password,
         fcmToken: fcmToken,
+        isLoading: isLoading,
+      );
+
+  Future<ResponseModel> getProfile({
+    bool isLoading = false,
+  }) async =>
+      connectHelper.getProfile(
         isLoading: isLoading,
       );
 }

@@ -5,6 +5,7 @@ import 'package:final_df/data/repositories/repositories.dart';
 import 'package:final_df/device/device.dart';
 import 'package:final_df/domain/entities/entities.dart';
 import 'package:final_df/domain/models/login_model.dart';
+import 'package:final_df/domain/models/profile_model.dart';
 
 /// The main repository which will get the data from [DeviceRepository] or the
 /// [DataRepository].
@@ -170,44 +171,23 @@ class Repository {
     }
   }
 
-  // Future<void> getUserLocationDetails() async {
-  //   try {
-  //     await Utility.getCurrentLocation();
-
-  //     var position = await Utility.getCurrentLatLng();
-
-  //     if (position != null) {
-  //       var lat = position.latitude.toString();
-  //       var lng = position.longitude.toString();
-  //       // saveSecureValue(LocalKeys.lat, lat);
-  //       // saveSecureValue(LocalKeys.lng, lng);
-  //     }
-  //     var locationDetails = await Utility.getCurrentLocationDetails(
-  //       isLoading: false,
-  //     );
-
-  //     if (locationDetails != null) {
-  //       var city = locationDetails.area;
-  //       var country = locationDetails.country;
-  //       saveSecureValue(LocalKeys.city, city);
-  //       saveSecureValue(LocalKeys.country, country);
-  //     }
-  //   } catch (e) {
-  //     Utility.showDialog(e.toString());
-  //   }
-  // }
-
-  /// API to get the IP of the user
-  // Future<String?> getIp() async {
-  //   try {
-  //     var response = await _dataRepository.getIp();
-  //     saveSecureValue(LocalKeys.userIP, response);
-
-  //     return response;
-  //   } catch (_) {
-  //     var response = await _deviceRepository.getIp();
-
-  //     return response;
-  //   }
-  // }
+  Future<GetProfileModel?> getProfile({
+    bool isLoading = false,
+  }) async {
+    try {
+      var response = await _dataRepository.getProfile(
+        isLoading: isLoading,
+      );
+      var getProfileModel = getProfileModelFromJson(response.data);
+      if (getProfileModel.status == 200) {
+        return getProfileModel;
+      } else {
+        return null;
+      }
+    } catch (_) {
+      Utility.closeDialog();
+      UnimplementedError();
+      return null;
+    }
+  }
 }

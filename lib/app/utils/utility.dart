@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+// import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
@@ -37,8 +37,8 @@ abstract class Utility {
     };
     if (isDefaultAuthorizationKeyAdd) {
       header.addAll({
-        // 'Authorization':
-        //     'Token ${Get.find<Repository>().getStringValue(LocalKey.isDefaultAuthorizationKeyAdd)}',
+        'Authorization':
+            'Token ${Get.find<Repository>().getStringValue(LocalKeys.authToken)}',
       });
     }
 
@@ -449,54 +449,54 @@ abstract class Utility {
   }
 
   /// Download file into private folder
-  static Future<void> downloadFile(String? url, String? name) async {
-    Get.back<dynamic>();
-    Utility.showLoader();
-    final appStorage = await createFolder();
-    final extension = ".${url!.split('.').last}";
-    final file = File('$appStorage/${name!}');
+  // static Future<void> downloadFile(String? url, String? name) async {
+  //   Get.back<dynamic>();
+  //   Utility.showLoader();
+  //   final appStorage = await createFolder();
+  //   final extension = ".${url!.split('.').last}";
+  //   final file = File('$appStorage/${name!}');
 
-    printILog(extension);
-    printDLog(file.path);
-    printDLog(url);
+  //   printILog(extension);
+  //   printDLog(file.path);
+  //   printDLog(url);
 
-    try {
-      var progress = '';
-      final response = await dio.Dio().get<dynamic>(
-        url,
-        options: dio.Options(
-          responseType: dio.ResponseType.bytes,
-          followRedirects: false,
-          // receiveTimeout: 0
-        ),
-        onReceiveProgress: (rec, total) {
-          progress = '${((rec / total) * 100).round()}%';
-          debugPrint(progress);
-        },
-      );
+  //   try {
+  //     var progress = '';
+  //     final response = await dio.Dio().get<dynamic>(
+  //       url,
+  //       options: dio.Options(
+  //         responseType: dio.ResponseType.bytes,
+  //         followRedirects: false,
+  //         // receiveTimeout: 0
+  //       ),
+  //       onReceiveProgress: (rec, total) {
+  //         progress = '${((rec / total) * 100).round()}%';
+  //         debugPrint(progress);
+  //       },
+  //     );
 
-      if (GetPlatform.isIOS) {
-        dynamic result = await ImageGallerySaver.saveImage(
-            Uint8List.fromList(response.data as List<int>),
-            quality: 60,
-            name: name);
-        printILog(result);
-      } else {
-        final d = response.data as List<int>;
+  //     if (GetPlatform.isIOS) {
+  //       dynamic result = await ImageGallerySaver.saveImage(
+  //           Uint8List.fromList(response.data as List<int>),
+  //           quality: 60,
+  //           name: name);
+  //       printILog(result);
+  //     } else {
+  //       final d = response.data as List<int>;
 
-        final ref = file.openSync(mode: FileMode.write);
+  //       final ref = file.openSync(mode: FileMode.write);
 
-        ref.writeFromSync(d);
-        await ref.close();
-      }
+  //       ref.writeFromSync(d);
+  //       await ref.close();
+  //     }
 
-      Utility.closeDialog();
-    } on Exception {
-      Utility.closeDialog();
-      printELog('Download Error');
-      return;
-    }
-  }
+  //     Utility.closeDialog();
+  //   } on Exception {
+  //     Utility.closeDialog();
+  //     printELog('Download Error');
+  //     return;
+  //   }
+  // }
 
   static bool isThemeDarkMode() {
     var repository = Get.find<Repository>();

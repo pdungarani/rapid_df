@@ -1,4 +1,6 @@
+import 'package:final_df/app/navigators/navigators.dart';
 import 'package:final_df/app/pages/item_screen/item_list_controller.dart';
+import 'package:final_df/app/theme/constan.dart';
 import 'package:final_df/app/theme/theme.dart';
 import 'package:final_df/app/utils/utils.dart';
 import 'package:final_df/domain/repositories/repositories.dart';
@@ -12,29 +14,12 @@ class ItemListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ItemController>(
-      // initState: (state) {
-      //   var controller = Get.find<CategoriesItemController>();
-      //   controller.isParcel = Get.arguments[1];
-      //   controller.subKotId = Get.arguments[2];
-
-      //   if (!controller.isParcel &&
-      //       controller.kotId != "" &&
-      //       controller.subKotId != "") {
-      //     // controller.getOneKot(
-      //     //     controller.kotId ?? "", controller.subKotId ?? "");
-      //   } else {
-      //     controller.parcelId = Get.arguments[0] ?? "";
-      //     if (controller.isParcel &&
-      //         (controller.parcelId?.isNotEmpty ?? false)) {
-      //       // controller.getOneParcel();
-      //     }
-      //   }
-      // },
       builder: (controller) => Scaffold(
         backgroundColor: ColorsValue.white,
         appBar: AppBar(
-          titleTextStyle: Styles.white70018,
-          title: Text(
+          titleTextStyle:
+              context.isTablet ? Styles.whiteBold14 : Styles.white70018,
+          title: const Text(
             'itemList',
           ),
           centerTitle: true,
@@ -45,7 +30,8 @@ class ItemListScreen extends StatelessWidget {
               //     arguments: ["", controller.isParcel, 1]);
             },
             child: Padding(
-              padding: Dimens.edgeInsets10,
+              padding:
+                  !context.isTablet ? Dimens.edgeInsets10 : Dimens.edgeInsets0,
               child: SvgPicture.asset(
                 AssetConstants.backarrowicon,
               ),
@@ -106,6 +92,7 @@ class ItemListScreen extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
+                            RouteManagement.goToCategoryScreen();
                             // RouteManagement.goToCategoriesScreen(
                             //     controller.isParcel);
                           },
@@ -140,15 +127,33 @@ class ItemListScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   "srcode".tr,
-                                  style: Styles.titlestyle70014,
+                                  style: context.theme.textTheme.labelLarge!
+                                      .copyWith(
+                                    color: ColorsValue.secondorytext,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: context.blockSizeVertical * 1.7,
+                                  ),
+                                  // Styles.titlestyle70014,
                                 ),
                                 Text(
                                   "menuremark".tr,
-                                  style: Styles.titlestyle70014,
+                                  style: context.theme.textTheme.labelLarge!
+                                      .copyWith(
+                                    color: ColorsValue.secondorytext,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: context.blockSizeVertical * 1.7,
+                                  ),
+                                  // style: Styles.titlestyle70014,
                                 ),
                                 Text(
                                   "",
-                                  style: Styles.titlestyle70014,
+                                  style: context.theme.textTheme.labelLarge!
+                                      .copyWith(
+                                    color: ColorsValue.secondorytext,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: context.blockSizeVertical * 1.7,
+                                  ),
+                                  // style: Styles.titlestyle70014,
                                 ),
                               ],
                             )),
@@ -160,15 +165,33 @@ class ItemListScreen extends StatelessWidget {
                             children: [
                               Text(
                                 "qta".tr,
-                                style: Styles.titlestyle70014,
+                                style: context.theme.textTheme.labelLarge!
+                                    .copyWith(
+                                  color: ColorsValue.secondorytext,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: context.blockSizeVertical * 1.7,
+                                ),
+                                // style: Styles.titlestyle70014,
                               ),
                               Text(
                                 "rate".tr,
-                                style: Styles.titlestyle70014,
+                                style: context.theme.textTheme.labelLarge!
+                                    .copyWith(
+                                  color: ColorsValue.secondorytext,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: context.blockSizeVertical * 1.7,
+                                ),
+                                // style: Styles.titlestyle70014,
                               ),
                               Text(
                                 "amt".tr,
-                                style: Styles.titlestyle70014,
+                                style: context.theme.textTheme.labelLarge!
+                                    .copyWith(
+                                  color: ColorsValue.secondorytext,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: context.blockSizeVertical * 1.7,
+                                ),
+                                // style: Styles.titlestyle70014,
                               ),
                             ],
                           ),
@@ -206,6 +229,7 @@ class ItemListScreen extends StatelessWidget {
                       // var item =
                       //     Get.find<BottombarController>().selectedItem[index];
                       return false
+                          // ignore: dead_code
                           ? Center(
                               child: SvgPicture.asset(
                                 AssetConstants.ic_empty_img,
@@ -465,25 +489,55 @@ class ItemListScreen extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
                                         children: [
-                                          Text(
-                                            7.toString(),
-                                            style: Styles.secondrytext70014,
-                                          ),
+                                          Text(7.toString(),
+                                              style: context
+                                                  .theme.textTheme.bodyLarge!
+                                                  .copyWith(
+                                                      color: ColorsValue
+                                                          .secondorytext,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: context
+                                                              .blockSizeVertical *
+                                                          1.4)
+                                              // Styles.secondrytext70014,
+                                              ),
                                           Flexible(
                                             child: Padding(
                                               padding: Dimens.edgeInsetsLeft10,
                                               child: Text(
-                                                "${'item.name'}".toUpperCase(),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: Styles.secondrytext70014,
-                                              ),
+                                                  'item.name'
+                                                      .toUpperCase(),
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow
+                                                      .ellipsis,
+                                                  style: context.theme.textTheme
+                                                      .bodyLarge!
+                                                      .copyWith(
+                                                          color: ColorsValue
+                                                              .secondorytext,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: context
+                                                                  .blockSizeVertical *
+                                                              1.4)
+                                                  // style: Styles.secondrytext70014,
+                                                  ),
                                             ),
                                           ),
-                                          Text(
-                                            "",
-                                            style: Styles.secondrytext70014,
-                                          ),
+                                          Text("",
+                                              style: context
+                                                  .theme.textTheme.bodyLarge!
+                                                  .copyWith(
+                                                      color: ColorsValue
+                                                          .secondorytext,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: context
+                                                              .blockSizeVertical *
+                                                          1.4)
+                                              // style: Styles.secondrytext70014,
+                                              ),
                                         ],
                                       ),
                                     ),
@@ -496,23 +550,51 @@ class ItemListScreen extends StatelessWidget {
                                         children: [
                                           Padding(
                                             padding: Dimens.edgeInsetsLeft10,
-                                            child: Text(
-                                              "${78}".toUpperCase(),
-                                              style: Styles.secondrytext70014,
-                                            ),
+                                            child: Text("${78}".toUpperCase(),
+                                                style: context
+                                                    .theme.textTheme.bodyLarge!
+                                                    .copyWith(
+                                                        color: ColorsValue
+                                                            .secondorytext,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: context
+                                                                .blockSizeVertical *
+                                                            1.4)
+                                                // style: Styles.secondrytext70014,
+                                                ),
                                           ),
                                           Padding(
                                             padding: Dimens.edgeInsetsLeft10,
-                                            child: Text(
-                                              "${780}".toUpperCase(),
-                                              style: Styles.secondrytext70014,
-                                            ),
+                                            child: Text("${780}".toUpperCase(),
+                                                style: context
+                                                    .theme.textTheme.bodyLarge!
+                                                    .copyWith(
+                                                        color: ColorsValue
+                                                            .secondorytext,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: context
+                                                                .blockSizeVertical *
+                                                            1.4)
+                                                // style: Styles.secondrytext70014,
+                                                ),
                                           ),
                                           Text(
-                                            "${int.parse(6.toString()) * int.parse(9.toString())}"
-                                                .toUpperCase(),
-                                            style: Styles.secondrytext70014,
-                                          ),
+                                              "${int.parse(6.toString()) * int.parse(9.toString())}"
+                                                  .toUpperCase(),
+                                              style: context
+                                                  .theme.textTheme.bodyLarge!
+                                                  .copyWith(
+                                                      color: ColorsValue
+                                                          .secondorytext,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: context
+                                                              .blockSizeVertical *
+                                                          1.4)
+                                              // style: Styles.secondrytext70014,
+                                              ),
                                         ],
                                       ),
                                     ),
@@ -623,10 +705,15 @@ class ItemListScreen extends StatelessWidget {
                               },
                               child: Padding(
                                 padding: Dimens.edgeInsets0_10_0_10,
-                                child: Text(
-                                  "kotbillgenrate".tr.toUpperCase(),
-                                  style: Styles.white60012,
-                                ),
+                                child: Text("kotbillgenrate".tr.toUpperCase(),
+                                    style: context.theme.textTheme.bodyLarge!
+                                        .copyWith(
+                                      color: ColorsValue.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: context.blockSizeVertical * 2,
+                                    )
+                                    //  Styles.white60012,
+                                    ),
                               ),
                             ),
                           ),
