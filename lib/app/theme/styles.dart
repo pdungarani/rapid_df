@@ -1356,7 +1356,7 @@ abstract class Styles {
   );
 
   static TextStyle red60012 = GoogleFonts.poppins(
-    color: ColorsValue.red,
+    color: ColorsValue.colorRed,
     fontWeight: FontWeight.w600,
     fontSize: Dimens.twelve,
   );

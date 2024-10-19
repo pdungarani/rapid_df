@@ -260,12 +260,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "image_gallery_saver",
-      "rootUri": "file:///Users/parthivdungarani/.pub-cache/hosted/pub.dev/image_gallery_saver-2.0.3",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "internet_connection_checker",
       "rootUri": "file:///Users/parthivdungarani/.pub-cache/hosted/pub.dev/internet_connection_checker-1.0.0+1",
       "packageUri": "lib/",
@@ -668,7 +662,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2024-10-18T17:56:36.294089Z",
+  "generated": "2024-10-19T11:47:07.396119Z",
   "generator": "pub",
   "generatorVersion": "3.5.2",
   "flutterRoot": "file:///Users/parthivdungarani/development/flutter",

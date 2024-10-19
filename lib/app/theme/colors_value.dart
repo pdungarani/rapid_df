@@ -346,10 +346,11 @@ abstract class ColorsValue {
   static Color purplue = const Color(0xffAD71EA);
   static Color lightred = const Color(0xffFDEDF2);
   static Color red = const Color(0xffE4628D);
+  static Color colorRed = const Color(0xffFF0000);
   static Color offwhite = const Color(0xffFCFCFC);
   static Color secondrycolor = const Color(0xff9BA0A8);
   static Color grey9CA3AF = const Color(0xff9CA3AF);
   static Color orangeColor = const Color(0xffFC8415);
   static Color grey999999 = const Color(0xff999999);
-  static Color grey6B7280 = const Color(0xff6B7280);  
+  static Color grey6B7280 = const Color(0xff6B7280);
 }

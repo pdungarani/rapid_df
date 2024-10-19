@@ -1,4 +1,5 @@
 import 'package:final_df/app/app.dart';
+import 'package:final_df/app/theme/constan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -12,7 +13,12 @@ class ItemScreen extends StatelessWidget {
       return Scaffold(
         backgroundColor: ColorsValue.white,
         appBar: AppBar(
-          titleTextStyle: Styles.white70018,
+          // titleTextStyle: Styles.white70018,
+          titleTextStyle: context.theme.textTheme.bodyLarge!.copyWith(
+            color: ColorsValue.white,
+            fontWeight: FontWeight.w700,
+            fontSize: Dimens.eighteen,
+          ),
           title: Text(
             "Table No.: 05".tr.toUpperCase(),
           ),
@@ -22,7 +28,8 @@ class ItemScreen extends StatelessWidget {
               Get.back();
             },
             child: Padding(
-              padding: Dimens.edgeInsets10,
+              padding:
+                  !context.isTablet ? Dimens.edgeInsets10 : Dimens.edgeInsets0,
               child: SvgPicture.asset(
                 AssetConstants.backarrowicon,
               ),
@@ -36,27 +43,42 @@ class ItemScreen extends StatelessWidget {
             ),
           ),
         ),
-        // floatingActionButton: Visibility(
-        //   visible: controller.kotData?.isCompleted ?? false ? false : true,
-        //   child: Padding(
-        //     padding: !controller.isKotData
-        //         ? Dimens.edgeInsets0
-        //         : Dimens.edgeInsetsBottom60,
-        //     child: FloatingActionButton(
-        //       shape: RoundedRectangleBorder(
-        //         borderRadius: BorderRadius.circular(
-        //           Dimens.sixty,
-        //         ),
-        //       ),
-        //       backgroundColor: ColorsValue.maincolor1,
-        //       onPressed: () {},
-        //       child: Icon(
-        //         Icons.add,
-        //         color: ColorsValue.white,
-        //       ),
-        //     ),
-        //   ),
-        // ),
+        floatingActionButton: Visibility(
+          visible: true,
+          child: Padding(
+            padding: Dimens.edgeInsets0,
+            // padding: !controller.isKotData
+            //     ? Dimens.edgeInsets0
+            //     : Dimens.edgeInsetsBottom60,
+            child: !context.isTablet
+                ? FloatingActionButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        Dimens.sixty,
+                      ),
+                    ),
+                    backgroundColor: ColorsValue.maincolor1,
+                    onPressed: () {},
+                    child: Icon(
+                      Icons.add,
+                      color: ColorsValue.white,
+                    ),
+                  )
+                : FloatingActionButton.large(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        Dimens.sixty,
+                      ),
+                    ),
+                    backgroundColor: ColorsValue.maincolor1,
+                    onPressed: () {},
+                    child: Icon(
+                      Icons.add,
+                      color: ColorsValue.white,
+                    ),
+                  ),
+          ),
+        ),
         body: Stack(
           children: [
             Container(
@@ -90,7 +112,7 @@ class ItemScreen extends StatelessWidget {
                                     padding: Dimens.edgeInsets0_10_0_10,
                                     child: Container(
                                       padding: Dimens.edgeInsets20_0_20_0,
-                                      height: Dimens.sixty,
+                                      height: Get.width * .14, //Dimens.sixty
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(
                                           Dimens.eight,
@@ -105,10 +127,16 @@ class ItemScreen extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            "KOT: 05",
-                                            style: Styles.main60012,
-                                          ),
+                                          Text("KOT: 05",
+                                              style: context
+                                                  .theme.textTheme.labelLarge!
+                                                  .copyWith(
+                                                fontSize:
+                                                    context.blockSizeVertical *
+                                                        1.7,
+                                              )
+                                              // Styles.main60012,
+                                              ),
                                           Icon(
                                             Icons.arrow_forward_ios,
                                             size: Dimens.fifteen,

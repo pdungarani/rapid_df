@@ -6,6 +6,9 @@ abstract class Routes {
   static const homeScreen = _Paths.homeScreen;
   static const itemScreen = _Paths.itemScreen;
   static const itemListScreen = _Paths.itemListScreen;
+  static const categoryScreen = _Paths.categoryScreen;
+  static const addItemScreen = _Paths.addItemScreen;
+  static const profileScreen = _Paths.profileScreen;
 }
 
 abstract class _Paths {
@@ -14,4 +17,7 @@ abstract class _Paths {
   static const homeScreen = '/homeScreen';
   static const itemScreen = '/itemScreen';
   static const itemListScreen = '/itemListScreen';
+  static const categoryScreen = '/categoryScreen';
+  static const addItemScreen = '/addItemScreen';
+  static const profileScreen = '/profileScreen';
 }

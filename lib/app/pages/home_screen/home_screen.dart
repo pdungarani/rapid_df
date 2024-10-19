@@ -1,4 +1,5 @@
 import 'package:final_df/app/app.dart';
+import 'package:final_df/app/theme/constan.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -38,12 +39,20 @@ class HomeScreen extends StatelessWidget {
                         child: Center(
                           child: Text(
                             'tableview'.tr,
-                            style: Styles.titlestyle70018,
+                            style: context.theme.textTheme.titleLarge!.copyWith(
+                              color: ColorsValue.lightmaincolor,
+                              fontSize: context.blockSizeVertical * 2.4,
+                              // fontWeight: FontWeight.w700,
+                              //   // fontSize: 18,
+                            ),
+                            // Styles.titlestyle70018,
                           ),
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          RouteManagement.goToProfileScreen();
+                        },
                         child: Image.asset(
                           AssetConstants.profile,
                           height: Dimens.thirtyFour,
@@ -93,9 +102,19 @@ class HomeScreen extends StatelessWidget {
                                     child: Center(
                                       child: Text(
                                         index.toString(),
-                                        style: controller.isselected == index
-                                            ? Styles.white60012
-                                            : Styles.main60012,
+                                        style: context
+                                            .theme.textTheme.labelMedium!
+                                            .copyWith(
+                                          color: controller.isselected == index
+                                              ? ColorsValue.white
+                                              : ColorsValue.maincolor1,
+                                          // fontWeight: FontWeight.w600,
+                                          fontSize:
+                                              context.blockSizeVertical * 1.8,
+                                          // fontSize: 12,
+                                        ),
+                                        // Styles.white60012
+                                        // : Styles.main60012,
                                       ),
                                     ),
                                   ),
@@ -253,6 +272,7 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                         ),
                                         onPressed: () {
+                                          controller.isselected == 0;
                                           controller.update();
                                         },
                                         child: Padding(
