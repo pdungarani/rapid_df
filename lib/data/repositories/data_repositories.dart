@@ -1,5 +1,6 @@
 import 'package:final_df/data/data.dart';
 import 'package:final_df/domain/domain.dart';
+import 'package:final_df/domain/models/create_model.dart';
 
 /// Repositories (retrieve data, heavy processing etc..)
 class DataRepository extends DomainRepository {
@@ -82,5 +83,63 @@ class DataRepository extends DomainRepository {
   }) async =>
       connectHelper.getProfile(
         isLoading: isLoading,
+      );
+
+  Future<ResponseModel> getAssignedTables({
+    bool isLoading = false,
+  }) async =>
+      connectHelper.getAssignedTables(
+        isLoading: isLoading,
+      );
+
+  Future<ResponseModel> getAllKots({
+    bool isLoading = false,
+    required String tableId,
+  }) async =>
+      connectHelper.getAllKots(
+        isLoading: isLoading,
+        tableId: tableId,
+      );
+
+  Future<ResponseModel> getOneKots({
+    bool isLoading = false,
+    required String tableId,
+    required String kotId,
+  }) async =>
+      connectHelper.getOneKots(
+        isLoading: isLoading,
+        tableId: tableId,
+        kotId: kotId,
+      );
+
+  Future<ResponseModel> getAllCategory({
+    bool isLoading = false,
+    required String search,
+  }) async =>
+      connectHelper.getAllCategory(
+        isLoading: isLoading,
+        search: search,
+      );
+
+  Future<ResponseModel> getOneCategory({
+    bool isLoading = false,
+    required String search,
+    required String categoryId,
+  }) async =>
+      connectHelper.getOneCategory(
+        isLoading: isLoading,
+        search: search,
+        categoryId: categoryId,
+      );
+
+  Future<ResponseModel> createKot({
+    bool isLoading = false,
+    required String tableId,
+    required List<Item> items,
+  }) async =>
+      connectHelper.createKot(
+        isLoading: isLoading,
+        tableId: tableId,
+        items: items,
       );
 }

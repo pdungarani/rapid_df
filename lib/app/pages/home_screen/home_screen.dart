@@ -74,13 +74,15 @@ class HomeScreen extends StatelessWidget {
                                 crossAxisSpacing: Dimens.twelve,
                                 mainAxisSpacing: Dimens.twelve,
                               ),
-                              itemCount: 3,
+                              itemCount: controller.tableList.length,
                               padding: Dimens.edgeInsets0_08_0_08,
                               itemBuilder: (context, index) {
+                                final tableDetail = controller.tableList[index];
                                 return InkWell(
                                   onTap: controller.isselected == -1
                                       ? () {
-                                          RouteManagement.goToItemScreen();
+                                          RouteManagement.goToItemScreen(
+                                              tableDetail);
                                         }
                                       : () {
                                           print(
@@ -101,20 +103,16 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        index.toString(),
+                                        tableDetail.tNumberInString ?? '0',
                                         style: context
                                             .theme.textTheme.labelMedium!
                                             .copyWith(
                                           color: controller.isselected == index
                                               ? ColorsValue.white
                                               : ColorsValue.maincolor1,
-                                          // fontWeight: FontWeight.w600,
                                           fontSize:
                                               context.blockSizeVertical * 1.8,
-                                          // fontSize: 12,
                                         ),
-                                        // Styles.white60012
-                                        // : Styles.main60012,
                                       ),
                                     ),
                                   ),

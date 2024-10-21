@@ -12,20 +12,12 @@ class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CategoryController>(
-      // initState: (state) {
-      //   var controller = Get.find<CategoriesItemController>();
-      //   controller.isParcel = Get.arguments ?? false;
-      //   controller.postCategoryList(search: "");
-      // },
+      initState: (state) {
+        var controller = Get.find<CategoryController>();
+        controller.getoneKots(search: '');
+      },
       builder: (controller) => PopScope(
         canPop: false,
-        // onPopInvoked: controller.internalItemList.isNotEmpty
-        //     ? (a) {}
-        //     : (didPop) {
-        //         if (!didPop) {
-        //           Get.back();
-        //         }
-        //       },
         child: Scaffold(
           backgroundColor: ColorsValue.white,
           body: Stack(
@@ -51,7 +43,7 @@ class CategoryScreen extends StatelessWidget {
                             },
                             child: SvgPicture.asset(
                               AssetConstants.backarrowicon,
-                              colorFilter: ColorFilter.mode(
+                              colorFilter: const ColorFilter.mode(
                                 ColorsValue.blackColor,
                                 BlendMode.srcIn,
                               ),
@@ -133,17 +125,20 @@ class CategoryScreen extends StatelessWidget {
                               ),
                               delegate: SliverChildListDelegate(
                                   // (controller.categoryDataList)
-                                  [0, 1, 2, 3, 4, 5].asMap().entries.map((e) {
+                                  (controller.categoryList)
+                                      .asMap()
+                                      .entries
+                                      .map((e) {
                                 int index = e.key;
-                                return false
+                                return controller.categoryList.isEmpty
                                     ? const Center(
                                         child: Text('Data Not found ...'),
                                       )
                                     : InkWell(
                                         onTap: () {
-                                          // print(
-                                          //     "========>>>>>>>>>>${controller.categoryDataList[index].id}");
-                                          RouteManagement.goToaddItemScreen();
+                                          RouteManagement.goToaddItemScreen(
+                                              categoryId: e.value.id ?? '',
+                                              tableId: Get.arguments ?? '');
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
@@ -171,10 +166,7 @@ class CategoryScreen extends StatelessWidget {
                                               padding:
                                                   Dimens.edgeInsets3_15_3_15,
                                               child: Text(
-                                                // controller
-                                                //         .categoryDataList[index]
-                                                //         .
-                                                'name',
+                                                e.value.name ?? '',
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: controller
