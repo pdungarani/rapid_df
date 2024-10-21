@@ -15,6 +15,25 @@ class AddItemController extends GetxController {
   bool isFilter = true;
   int itemCounter = 1;
 
+  List<GetCategoryElement> categoryLists = [
+    GetCategoryElement(
+      id: '1',
+      name: 'testCategory'.tr,
+    ),
+    GetCategoryElement(
+      id: '2',
+      name: 'allcategory'.tr,
+    ),
+    GetCategoryElement(
+      id: '3',
+      name: 'allcategory'.tr,
+    ),
+    GetCategoryElement(
+      id: '5',
+      name: 'allcategory'.tr,
+    ),
+  ];
+
   List<oneCategoryDatum> internalItemList = [];
   List getCategoryItemList = [];
 
