@@ -131,7 +131,7 @@ class ItemScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Flexible(
-                                            child: Text("KOT: ${item.id}",
+                                            child: Text("KOT: ${item.kotNo}",
                                                 maxLines: 1,
                                                 softWrap: true,
                                                 overflow: TextOverflow.ellipsis,
