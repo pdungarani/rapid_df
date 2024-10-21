@@ -1,5 +1,7 @@
 import 'package:final_df/app/pages/category_screen/category_page.dart';
 import 'package:final_df/app/theme/theme.dart';
+import 'package:final_df/app/utils/utils.dart';
+import 'package:final_df/domain/models/models.dart';
 import 'package:get/get.dart';
 
 class CategoryController extends GetxController {
@@ -39,4 +41,23 @@ class CategoryController extends GetxController {
       "background": ColorsValue.red,
     }
   ];
+
+  List<CategoryDatum> categoryList = [];
+
+  Future<void> getoneKots({
+    bool isLoading = true,
+    required String search,
+  }) async {
+    var response = await categoryPresenter.getAllCategory(
+      isLoading: isLoading,
+      search: search,
+    );
+    categoryList.clear();
+    if (response == null) {
+      Utility.snacBar(response!.message ?? '', ColorsValue.maincolor1);
+    } else {
+      categoryList.addAll(response.data ?? []);
+    }
+    update();
+  }
 }

@@ -146,69 +146,73 @@ class ProfileScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Spacer(),
-                    InkWell(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor: ColorsValue.white,
-                              title: Text(
-                                "confirm_logout".tr,
-                                style: Styles.main60018,
-                              ),
-                              content: Text(
-                                "logout_des".tr,
-                                style: Styles.redColor70016,
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: Text(
-                                    "yes".tr,
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor: ColorsValue.white,
+                                  title: Text(
+                                    "confirm_logout".tr,
+                                    style: Styles.main60018,
+                                  ),
+                                  content: Text(
+                                    "logout_des".tr,
                                     style: Styles.redColor70016,
                                   ),
-                                  onPressed: () {
-                                    Get.back();
-                                    Get.find<Repository>()
-                                        .clearData(LocalKeys.authToken);
-                                    Get.find<Repository>()
-                                        .deleteAllSecuredValues();
-                                    RouteManagement.goToLoginScreen();
-                                  },
-                                ),
-                                TextButton(
-                                  child: Text(
-                                    "no".tr,
-                                    style: Styles.main60016,
-                                  ),
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                )
-                              ],
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text(
+                                        "yes".tr,
+                                        style: Styles.redColor70016,
+                                      ),
+                                      onPressed: () {
+                                        Get.back();
+                                        Get.find<Repository>()
+                                            .clearData(LocalKeys.authToken);
+                                        Get.find<Repository>()
+                                            .deleteAllSecuredValues();
+                                        RouteManagement.goToLoginScreen();
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: Text(
+                                        "no".tr,
+                                        style: Styles.main60016,
+                                      ),
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                    )
+                                  ],
+                                );
+                              },
                             );
                           },
-                        );
-                      },
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12))),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 13),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(AssetConstants.logouticon),
-                              Dimens.boxWidth12,
-                              Text(
-                                "Log out".tr.toUpperCase(),
-                                style: Styles.red60012,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12))),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 13),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(AssetConstants.logouticon),
+                                  Dimens.boxWidth12,
+                                  Text(
+                                    "Log out".tr.toUpperCase(),
+                                    style: Styles.red60012,
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ),

@@ -14,6 +14,13 @@ class ItemListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ItemController>(
+      initState: (state) {
+        final controller = Get.find<ItemController>();
+        controller.getoneKots(
+          tableId: Get.arguments[1],
+          kotId: Get.arguments[0],
+        );
+      },
       builder: (controller) => Scaffold(
         backgroundColor: ColorsValue.white,
         appBar: AppBar(
@@ -65,9 +72,11 @@ class ItemListScreen extends StatelessWidget {
                     children: [
                       Text(
                         controller.isParcel
-                            ? "Token no : 0".toUpperCase()
+                            ? "Token no : ${controller.getOneKotData?.id}"
+                                .toUpperCase()
                             : controller.kotCount == 0
-                                ? "KOT :  1".toUpperCase()
+                                ? "KOT :  ${controller.getOneKotData?.kotNo}"
+                                    .toUpperCase()
                                 : "KOT : ${controller.kotCount + 1}"
                                     .toUpperCase(),
                         style: Styles.main70016,
@@ -92,7 +101,8 @@ class ItemListScreen extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
-                            RouteManagement.goToCategoryScreen();
+                            RouteManagement.goToCategoryScreen(
+                                tableId: controller.data?.id ?? '');
                             // RouteManagement.goToCategoriesScreen(
                             //     controller.isParcel);
                           },
@@ -223,13 +233,10 @@ class ItemListScreen extends StatelessWidget {
                         color: ColorsValue.secondorytext,
                       );
                     },
-                    itemCount: 7,
-                    // Get.find<BottombarController>().selectedItem.length,
+                    itemCount: controller.getOneKot.length,
                     itemBuilder: (context, index) {
-                      // var item =
-                      //     Get.find<BottombarController>().selectedItem[index];
-                      return false
-                          // ignore: dead_code
+                      final kotItem = controller.getOneKot[index];
+                      return controller.getOneKot.isEmpty
                           ? Center(
                               child: SvgPicture.asset(
                                 AssetConstants.ic_empty_img,
@@ -489,7 +496,7 @@ class ItemListScreen extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
                                         children: [
-                                          Text(7.toString(),
+                                          Text(kotItem.item?.codeInString ?? '',
                                               style: context
                                                   .theme.textTheme.bodyLarge!
                                                   .copyWith(
@@ -506,11 +513,10 @@ class ItemListScreen extends StatelessWidget {
                                             child: Padding(
                                               padding: Dimens.edgeInsetsLeft10,
                                               child: Text(
-                                                  'item.name'
-                                                      .toUpperCase(),
+                                                  kotItem.item?.name ?? '',
                                                   maxLines: 1,
-                                                  overflow: TextOverflow
-                                                      .ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: context.theme.textTheme
                                                       .bodyLarge!
                                                       .copyWith(
@@ -520,9 +526,7 @@ class ItemListScreen extends StatelessWidget {
                                                               FontWeight.w600,
                                                           fontSize: context
                                                                   .blockSizeVertical *
-                                                              1.4)
-                                                  // style: Styles.secondrytext70014,
-                                                  ),
+                                                              1.4)),
                                             ),
                                           ),
                                           Text("",
@@ -550,7 +554,9 @@ class ItemListScreen extends StatelessWidget {
                                         children: [
                                           Padding(
                                             padding: Dimens.edgeInsetsLeft10,
-                                            child: Text("${78}".toUpperCase(),
+                                            child: Text(
+                                                "${kotItem.quantity}"
+                                                    .toUpperCase(),
                                                 style: context
                                                     .theme.textTheme.bodyLarge!
                                                     .copyWith(
@@ -566,7 +572,9 @@ class ItemListScreen extends StatelessWidget {
                                           ),
                                           Padding(
                                             padding: Dimens.edgeInsetsLeft10,
-                                            child: Text("${780}".toUpperCase(),
+                                            child: Text(
+                                                "${kotItem.item?.price}"
+                                                    .toUpperCase(),
                                                 style: context
                                                     .theme.textTheme.bodyLarge!
                                                     .copyWith(
@@ -581,7 +589,7 @@ class ItemListScreen extends StatelessWidget {
                                                 ),
                                           ),
                                           Text(
-                                              "${int.parse(6.toString()) * int.parse(9.toString())}"
+                                              "${int.parse(kotItem.quantity.toString()) * int.parse(kotItem.item?.price.toString() ?? '')}"
                                                   .toUpperCase(),
                                               style: context
                                                   .theme.textTheme.bodyLarge!

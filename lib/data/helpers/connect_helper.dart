@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:final_df/app/app.dart';
 import 'package:final_df/data/helpers/helpers.dart';
 import 'package:final_df/domain/domain.dart';
+import 'package:final_df/domain/models/create_model.dart';
 import 'package:get/get.dart';
 
 /// The helper class which will connect to the world to get the data.
@@ -104,6 +105,110 @@ class ConnectHelper {
       EndPoints.getProfile,
       Request.get,
       null,
+      isLoading,
+      Utility.commonHeader(),
+    );
+    return response;
+  }
+
+  Future<ResponseModel> getAssignedTables({
+    bool isLoading = false,
+  }) async {
+    var response = await apiWrapper.makeRequest(
+      EndPoints.getAssignedTables,
+      Request.get,
+      null,
+      isLoading,
+      Utility.commonHeader(),
+    );
+    return response;
+  }
+
+  Future<ResponseModel> getAllKots({
+    required String tableId,
+    bool isLoading = false,
+  }) async {
+    var data = {
+      'tableId': tableId,
+    };
+    var response = await apiWrapper.makeRequest(
+      EndPoints.getAllKot,
+      Request.post,
+      data,
+      isLoading,
+      Utility.commonHeader(),
+    );
+    return response;
+  }
+
+  Future<ResponseModel> getOneKots({
+    required String tableId,
+    required String kotId,
+    bool isLoading = false,
+  }) async {
+    var data = {
+      'tableId': tableId,
+      'kotId': kotId,
+    };
+    var response = await apiWrapper.makeRequest(
+      EndPoints.getOneKot,
+      Request.post,
+      data,
+      isLoading,
+      Utility.commonHeader(),
+    );
+    return response;
+  }
+
+  Future<ResponseModel> getAllCategory({
+    required String search,
+    bool isLoading = false,
+  }) async {
+    var data = {
+      'search': search,
+    };
+    var response = await apiWrapper.makeRequest(
+      EndPoints.getallCategory,
+      Request.post,
+      data,
+      isLoading,
+      Utility.commonHeader(),
+    );
+    return response;
+  }
+
+  Future<ResponseModel> getOneCategory({
+    required String search,
+    required String categoryId,
+    bool isLoading = false,
+  }) async {
+    var data = {
+      'search': search,
+      'categoryId': categoryId,
+    };
+    var response = await apiWrapper.makeRequest(
+      EndPoints.getOneCategory,
+      Request.post,
+      data,
+      isLoading,
+      Utility.commonHeader(),
+    );
+    return response;
+  }
+
+  Future<ResponseModel> createKot({
+    required String tableId,
+    required List<Item> items,
+    bool isLoading = false,
+  }) async {
+    var data = {
+      'tableId': tableId,
+      'items': items,
+    };
+    var response = await apiWrapper.makeRequest(
+      EndPoints.createKot,
+      Request.post,
+      data,
       isLoading,
       Utility.commonHeader(),
     );

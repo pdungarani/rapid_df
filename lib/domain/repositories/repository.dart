@@ -4,8 +4,11 @@ import 'package:final_df/app/utils/utils.dart';
 import 'package:final_df/data/repositories/repositories.dart';
 import 'package:final_df/device/device.dart';
 import 'package:final_df/domain/entities/entities.dart';
-import 'package:final_df/domain/models/login_model.dart';
-import 'package:final_df/domain/models/profile_model.dart';
+import 'package:final_df/domain/models/createKot_model.dart';
+import 'package:final_df/domain/models/create_model.dart';
+import 'package:final_df/domain/models/getOneCategory_model.dart';
+import 'package:final_df/domain/models/getKot_model.dart';
+import 'package:final_df/domain/models/models.dart';
 
 /// The main repository which will get the data from [DeviceRepository] or the
 /// [DataRepository].
@@ -185,6 +188,153 @@ class Repository {
         return null;
       }
     } catch (_) {
+      Utility.closeDialog();
+      UnimplementedError();
+      return null;
+    }
+  }
+
+  Future<GetAssignModel?> getAssignedTables({
+    bool isLoading = false,
+  }) async {
+    try {
+      var response = await _dataRepository.getAssignedTables(
+        isLoading: isLoading,
+      );
+      var getProfileModel = getAssignModelFromJson(response.data);
+      if (getProfileModel.status == 200) {
+        return getProfileModel;
+      } else {
+        return null;
+      }
+    } catch (_) {
+      Utility.closeDialog();
+      UnimplementedError();
+      return null;
+    }
+  }
+
+  Future<GetKotModel?> getAllKots({
+    required String tableId,
+    bool isLoading = false,
+  }) async {
+    try {
+      var response = await _dataRepository.getAllKots(
+        isLoading: isLoading,
+        tableId: tableId,
+      );
+      var getAllKots = getKotModelFromJson(response.data);
+      if (getAllKots.status == 200) {
+        return getAllKots;
+      } else {
+        Utility.showMessage(
+            getAllKots.message.toString(), MessageType.error, () => null, '');
+        return getAllKots;
+      }
+    } catch (_) {
+      Utility.closeDialog();
+      UnimplementedError();
+      return null;
+    }
+  }
+
+  Future<GetOneKotModel?> getOneKots({
+    required String tableId,
+    required String kotId,
+    bool isLoading = false,
+  }) async {
+    try {
+      var response = await _dataRepository.getOneKots(
+        isLoading: isLoading,
+        tableId: tableId,
+        kotId: kotId,
+      );
+      var getOneKot = getOneKotModelFromJson(response.data);
+      if (getOneKot.status == 200) {
+        return getOneKot;
+      } else {
+        Utility.showMessage(
+            getOneKot.message.toString(), MessageType.error, () => null, '');
+        return getOneKot;
+      }
+    } catch (_) {
+      Utility.closeDialog();
+      UnimplementedError();
+      return null;
+    }
+  }
+
+  Future<GetCategoryModel?> getAllCategory({
+    required String search,
+    bool isLoading = false,
+  }) async {
+    try {
+      var response = await _dataRepository.getAllCategory(
+        isLoading: isLoading,
+        search: search,
+      );
+      var getAllCategory = getCategoryModelFromJson(response.data);
+      if (getAllCategory.status == 200) {
+        return getAllCategory;
+      } else {
+        Utility.showMessage(getAllCategory.message.toString(),
+            MessageType.error, () => null, '');
+        return getAllCategory;
+      }
+    } catch (_) {
+      Utility.closeDialog();
+      UnimplementedError();
+      return null;
+    }
+  }
+
+  Future<GetOneCategoryModel?> getOneCategory({
+    bool isLoading = false,
+    required String search,
+    required String categoryId,
+  }) async {
+    try {
+      var response = await _dataRepository.getOneCategory(
+        isLoading: isLoading,
+        search: search,
+        categoryId: categoryId,
+      );
+      var getOneCategory = getOneCategoryModelFromJson(response.data);
+      if (getOneCategory.status == 200) {
+        return getOneCategory;
+      } else {
+        Utility.showMessage(getOneCategory.message.toString(),
+            MessageType.error, () => null, '');
+        return getOneCategory;
+      }
+    } catch (_) {
+      Utility.closeDialog();
+      UnimplementedError();
+      return null;
+    }
+  }
+
+  Future<CreateKotModel?> createKot({
+    bool isLoading = false,
+    required String tableId,
+    required List<Item> items,
+  }) async {
+    try {
+      var response = await _dataRepository.createKot(
+        isLoading: isLoading,
+        tableId: tableId,
+        items: items,
+      );
+      var createKotModel = createKotModelFromJson(response.data);
+      if (createKotModel.status == 200) {
+        return createKotModel;
+      } else {
+        Utility.showMessage(createKotModel.message.toString(),
+            MessageType.error, () => null, '');
+        return createKotModel;
+      }
+    } catch (e) {
+      print(e);
       Utility.closeDialog();
       UnimplementedError();
       return null;

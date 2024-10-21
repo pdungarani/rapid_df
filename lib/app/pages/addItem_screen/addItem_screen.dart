@@ -1,6 +1,7 @@
 import 'package:final_df/app/pages/pages.dart';
 import 'package:final_df/app/theme/theme.dart';
 import 'package:final_df/app/utils/utils.dart';
+import 'package:final_df/domain/models/create_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,13 @@ class AddItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AddItemController>(
+      initState: (state) {
+        final controller = Get.find<AddItemController>();
+        controller.getOneCategory(
+          search: '',
+          categoryId: Get.arguments[0],
+        );
+      },
       builder: (controller) {
         return Scaffold(
           backgroundColor: ColorsValue.white,
@@ -312,317 +320,319 @@ class AddItemScreen extends StatelessWidget {
                       Expanded(
                         child: Center(
                           child: ListView.builder(
-                            itemCount: 7,
-                            // controller.getCategoryItemList.length,
-                            itemBuilder: (context, index) => Padding(
-                              padding: Dimens.edgeInsets0_5_0_5,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: ColorsValue.white,
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(Dimens.eight)),
-                                  border: Border.all(
-                                    color: ColorsValue.maincolor1,
-                                    width: 1.5,
+                            itemCount: controller.getCategoryItemList.length,
+                            itemBuilder: (context, index) {
+                              final categoryItem =
+                                  controller.getCategoryItemList[index];
+                              return Padding(
+                                padding: Dimens.edgeInsets0_5_0_5,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: ColorsValue.white,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(Dimens.eight)),
+                                    border: Border.all(
+                                      color: ColorsValue.maincolor1,
+                                      width: 1.5,
+                                    ),
                                   ),
-                                ),
-                                child: ListTile(
-                                  leadingAndTrailingTextStyle: Styles.main60012,
-                                  minLeadingWidth: 2,
-                                  title: Text(
-                                    'Test ${index + 1}',
-                                    style: Styles.main60012,
-                                  ),
-                                  leading: Padding(
-                                    padding: Dimens.edgeInsetsTopt3,
-                                    child: Text((index + 1).toString()),
-                                  ),
-                                  trailing: InkWell(
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return StatefulBuilder(
-                                            builder: (context, setState) {
-                                              setState(() {});
-                                              return Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Material(
-                                                    color: Colors.transparent,
-                                                    child: Padding(
-                                                      padding: Dimens
-                                                          .edgeInsets20_0_20_0,
-                                                      child: Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                            Radius.circular(
-                                                              Dimens.sixteen,
-                                                            ),
-                                                          ),
-                                                          color:
-                                                              ColorsValue.white,
-                                                        ),
-                                                        width: Get.width,
-                                                        child: Padding(
-                                                          padding: Dimens
-                                                              .edgeInsets20,
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                "qtaandremark"
-                                                                    .tr
-                                                                    .toUpperCase(),
-                                                                style: Styles
-                                                                    .underlinetitlestyle70018,
+                                  child: ListTile(
+                                    leadingAndTrailingTextStyle:
+                                        Styles.main60012,
+                                    minLeadingWidth: 2,
+                                    title: Text(
+                                      categoryItem.name,
+                                      // 'Test ${index + 1}',
+                                      style: Styles.main60012,
+                                    ),
+                                    leading: Padding(
+                                      padding: Dimens.edgeInsetsTopt3,
+                                      child: Text((index + 1).toString()),
+                                    ),
+                                    trailing: InkWell(
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return StatefulBuilder(
+                                              builder: (context, setState) {
+                                                setState(() {});
+                                                return Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Material(
+                                                      color: Colors.transparent,
+                                                      child: Padding(
+                                                        padding: Dimens
+                                                            .edgeInsets20_0_20_0,
+                                                        child: Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                Dimens.sixteen,
                                                               ),
-                                                              Dimens
-                                                                  .boxHeight20,
-                                                              Row(
-                                                                children: [
-                                                                  GestureDetector(
-                                                                    onTap: controller.itemCounter >
-                                                                            0
-                                                                        ? () {
-                                                                            controller.itemCounter--;
-                                                                            setState(() {});
-                                                                          }
-                                                                        : () {},
-                                                                    child:
-                                                                        Container(
-                                                                      height: Dimens
-                                                                          .thirty,
-                                                                      width: Dimens
-                                                                          .thirty,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: ColorsValue
-                                                                            .whitee,
-                                                                        borderRadius:
-                                                                            BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              Dimens.six),
-                                                                        ),
-                                                                        border: Border.all(
-                                                                            color:
-                                                                                ColorsValue.maincolor1),
-                                                                      ),
+                                                            ),
+                                                            color: ColorsValue
+                                                                .white,
+                                                          ),
+                                                          width: Get.width,
+                                                          child: Padding(
+                                                            padding: Dimens
+                                                                .edgeInsets20,
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  "qtaandremark"
+                                                                      .tr
+                                                                      .toUpperCase(),
+                                                                  style: Styles
+                                                                      .underlinetitlestyle70018,
+                                                                ),
+                                                                Dimens
+                                                                    .boxHeight20,
+                                                                Row(
+                                                                  children: [
+                                                                    GestureDetector(
+                                                                      onTap: controller.itemCounter >
+                                                                              0
+                                                                          ? () {
+                                                                              controller.itemCounter--;
+                                                                              setState(() {});
+                                                                            }
+                                                                          : () {},
                                                                       child:
-                                                                          Padding(
-                                                                        padding:
-                                                                            Dimens.edgeInsets8_0_8_0,
-                                                                        child: SvgPicture.asset(
-                                                                            AssetConstants.minusicon),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  Dimens
-                                                                      .boxWidth10,
-                                                                  Text(controller
-                                                                              .itemCounter <
-                                                                          9
-                                                                      ? "0${controller.itemCounter.toString()}"
-                                                                      : controller
-                                                                          .itemCounter
-                                                                          .toString()),
-                                                                  Dimens
-                                                                      .boxWidth10,
-                                                                  GestureDetector(
-                                                                    onTap: () {
-                                                                      controller
-                                                                          .itemCounter++;
-                                                                      setState(
-                                                                          () {});
-                                                                    },
-                                                                    child:
-                                                                        Container(
-                                                                      height: Dimens
-                                                                          .thirty,
-                                                                      width: Dimens
-                                                                          .thirty,
-                                                                      decoration: BoxDecoration(
-                                                                          color: ColorsValue.whitee,
-                                                                          borderRadius: BorderRadius.all(
+                                                                          Container(
+                                                                        height:
+                                                                            Dimens.thirty,
+                                                                        width: Dimens
+                                                                            .thirty,
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          color:
+                                                                              ColorsValue.whitee,
+                                                                          borderRadius:
+                                                                              BorderRadius.all(
                                                                             Radius.circular(Dimens.six),
                                                                           ),
-                                                                          border: Border.all(color: ColorsValue.maincolor1)),
+                                                                          border:
+                                                                              Border.all(color: ColorsValue.maincolor1),
+                                                                        ),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              Dimens.edgeInsets8_0_8_0,
+                                                                          child:
+                                                                              SvgPicture.asset(AssetConstants.minusicon),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Dimens
+                                                                        .boxWidth10,
+                                                                    Text(controller.itemCounter <
+                                                                            9
+                                                                        ? "0${controller.itemCounter.toString()}"
+                                                                        : controller
+                                                                            .itemCounter
+                                                                            .toString()),
+                                                                    Dimens
+                                                                        .boxWidth10,
+                                                                    GestureDetector(
+                                                                      onTap:
+                                                                          () {
+                                                                        controller
+                                                                            .itemCounter++;
+                                                                        setState(
+                                                                            () {});
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        height:
+                                                                            Dimens.thirty,
+                                                                        width: Dimens
+                                                                            .thirty,
+                                                                        decoration: BoxDecoration(
+                                                                            color: ColorsValue.whitee,
+                                                                            borderRadius: BorderRadius.all(
+                                                                              Radius.circular(Dimens.six),
+                                                                            ),
+                                                                            border: Border.all(color: ColorsValue.maincolor1)),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              Dimens.edgeInsets8_0_8_0,
+                                                                          child:
+                                                                              SvgPicture.asset(AssetConstants.pluseicon),
+                                                                        ),
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                                Dimens
+                                                                    .boxHeight20,
+                                                                Text(
+                                                                  "remark".tr,
+                                                                  style: Styles
+                                                                      .main60014,
+                                                                ),
+                                                                TextFormField(
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    hintText:
+                                                                        'hinttext'
+                                                                            .tr,
+                                                                  ),
+                                                                  maxLines: 3,
+                                                                ),
+                                                                Dimens
+                                                                    .boxHeight20,
+                                                                Row(
+                                                                  children: [
+                                                                    Expanded(
+                                                                      flex: 2,
                                                                       child:
                                                                           Padding(
                                                                         padding:
-                                                                            Dimens.edgeInsets8_0_8_0,
-                                                                        child: SvgPicture.asset(
-                                                                            AssetConstants.pluseicon),
-                                                                      ),
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                              Dimens
-                                                                  .boxHeight20,
-                                                              Text(
-                                                                "remark".tr,
-                                                                style: Styles
-                                                                    .main60014,
-                                                              ),
-                                                              TextFormField(
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  hintText:
-                                                                      'hinttext'
-                                                                          .tr,
-                                                                ),
-                                                                maxLines: 3,
-                                                              ),
-                                                              Dimens
-                                                                  .boxHeight20,
-                                                              Row(
-                                                                children: [
-                                                                  Expanded(
-                                                                    flex: 2,
-                                                                    child:
-                                                                        Padding(
-                                                                      padding:
-                                                                          Dimens
-                                                                              .edgeInsets8,
-                                                                      child:
-                                                                          ElevatedButton(
-                                                                        style:
-                                                                            ButtonStyle(
-                                                                          backgroundColor:
-                                                                              MaterialStateProperty.all<Color>(ColorsValue.whitetext),
-                                                                          shape:
-                                                                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                                                            RoundedRectangleBorder(
-                                                                              borderRadius: BorderRadius.all(
-                                                                                Radius.circular(Dimens.eight),
-                                                                              ),
-                                                                              side: BorderSide(
-                                                                                color: ColorsValue.greyLight,
+                                                                            Dimens.edgeInsets8,
+                                                                        child:
+                                                                            ElevatedButton(
+                                                                          style:
+                                                                              ButtonStyle(
+                                                                            backgroundColor:
+                                                                                MaterialStateProperty.all<Color>(ColorsValue.whitetext),
+                                                                            shape:
+                                                                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                                              RoundedRectangleBorder(
+                                                                                borderRadius: BorderRadius.all(
+                                                                                  Radius.circular(Dimens.eight),
+                                                                                ),
+                                                                                side: BorderSide(
+                                                                                  color: ColorsValue.greyLight,
+                                                                                ),
                                                                               ),
                                                                             ),
                                                                           ),
-                                                                        ),
-                                                                        onPressed:
-                                                                            () {
-                                                                          Get.back();
-                                                                        },
-                                                                        child:
-                                                                            Padding(
-                                                                          padding:
-                                                                              Dimens.edgeInsets0_12_0_12,
-                                                                          child: Text(
-                                                                              "cancle".tr.toUpperCase(),
-                                                                              style: Styles.main60014),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  Expanded(
-                                                                    flex: 2,
-                                                                    child:
-                                                                        Padding(
-                                                                      padding:
-                                                                          Dimens
-                                                                              .edgeInsets0,
-                                                                      child:
-                                                                          ElevatedButton(
-                                                                        style:
-                                                                            ButtonStyle(
-                                                                          backgroundColor:
-                                                                              MaterialStateProperty.all<Color>(ColorsValue.maincolor1),
-                                                                          shape:
-                                                                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                                                            RoundedRectangleBorder(
-                                                                              borderRadius: BorderRadius.all(
-                                                                                Radius.circular(Dimens.eight),
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        onPressed:
-                                                                            () {
-                                                                          Get.back();
-                                                                        },
-                                                                        child:
-                                                                            Padding(
-                                                                          padding:
-                                                                              Dimens.edgeInsets0_12_0_12,
+                                                                          onPressed:
+                                                                              () {
+                                                                            Get.back();
+                                                                          },
                                                                           child:
-                                                                              Text(
-                                                                            "submit".tr.toUpperCase(),
-                                                                            style:
-                                                                                Styles.white14,
+                                                                              Padding(
+                                                                            padding:
+                                                                                Dimens.edgeInsets0_12_0_12,
+                                                                            child:
+                                                                                Text("cancle".tr.toUpperCase(), style: Styles.main60014),
                                                                           ),
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ],
+                                                                    Expanded(
+                                                                      flex: 2,
+                                                                      child:
+                                                                          Padding(
+                                                                        padding:
+                                                                            Dimens.edgeInsets0,
+                                                                        child:
+                                                                            ElevatedButton(
+                                                                          style:
+                                                                              ButtonStyle(
+                                                                            backgroundColor:
+                                                                                MaterialStateProperty.all<Color>(ColorsValue.maincolor1),
+                                                                            shape:
+                                                                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                                              RoundedRectangleBorder(
+                                                                                borderRadius: BorderRadius.all(
+                                                                                  Radius.circular(Dimens.eight),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          onPressed:
+                                                                              () {
+                                                                            Get.back();
+                                                                          },
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                Dimens.edgeInsets0_12_0_12,
+                                                                            child:
+                                                                                Text(
+                                                                              "submit".tr.toUpperCase(),
+                                                                              style: Styles.white14,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  )
+                                                    )
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: Container(
+                                        width: Dimens.eighty,
+                                        height: Dimens.twentySix,
+                                        decoration: BoxDecoration(
+                                          color: ColorsValue.maincolor1,
+                                          borderRadius: BorderRadius.circular(
+                                            Dimens.six,
+                                          ),
+                                          border: Border.all(
+                                            width: Dimens.zero,
+                                          ),
+                                        ),
+                                        child: true
+                                            ? Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "qty : ${categoryItem.price}"
+                                                        .toUpperCase(),
+                                                    style: Styles.white10,
+                                                  ),
+                                                  Dimens.boxWidth10,
+                                                  SvgPicture.asset(
+                                                    AssetConstants.ic_edit,
+                                                  ),
                                                 ],
-                                              );
-                                            },
-                                          );
-                                        },
-                                      );
-                                    },
-                                    child: Container(
-                                      width: Dimens.eighty,
-                                      height: Dimens.twentySix,
-                                      decoration: BoxDecoration(
-                                        color: ColorsValue.maincolor1,
-                                        borderRadius: BorderRadius.circular(
-                                          Dimens.six,
-                                        ),
-                                        border: Border.all(
-                                          width: Dimens.zero,
-                                        ),
-                                      ),
-                                      child: true
-                                          ? Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  "qty : 9".toUpperCase(),
-                                                  style: Styles.white10,
+                                              )
+                                            : Center(
+                                                child: Text(
+                                                  // controller
+                                                  //         .getCategoryItemList[
+                                                  //             index]
+                                                  //         .isAdded
+                                                  // ?
+                                                  "Edit",
+                                                  // : "additem".tr,
+                                                  style: Styles.main70010,
                                                 ),
-                                                Dimens.boxWidth10,
-                                                SvgPicture.asset(
-                                                  AssetConstants.ic_edit,
-                                                ),
-                                              ],
-                                            )
-                                          : Center(
-                                              child: Text(
-                                                // controller
-                                                //         .getCategoryItemList[
-                                                //             index]
-                                                //         .isAdded
-                                                // ?
-                                                "Edit",
-                                                // : "additem".tr,
-                                                style: Styles.main70010,
                                               ),
-                                            ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -633,7 +643,8 @@ class AddItemScreen extends StatelessWidget {
                           child: ElevatedButton(
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
-                                  ColorsValue.maincolor1),
+                                ColorsValue.maincolor1,
+                              ),
                               shape: MaterialStateProperty.all<
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
@@ -642,11 +653,32 @@ class AddItemScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              controller.createKot(
+                                tableId: Get.arguments[1],
+                                items: controller.getCategoryItemList
+                                    .map(
+                                      (e) => Item(
+                                        itemId: e.id,
+                                        quantity: 2,
+                                        remark: '',
+                                      ),
+                                    )
+                                    .toList(),
+                                // [
+                                //   Item(
+                                //     itemId: "66dada6dd67a48fb5bdb42dd",
+                                //     quantity: 2,
+                                //     remark: '',
+                                //   )
+                                // ],
+                              );
+                              // controller.createKot(tableId: , items: []);
+                            },
                             child: Padding(
                               padding: Dimens.edgeInsets0_10_0_10,
                               child: Text(
-                                "go_to_order_list".tr.toUpperCase(),
+                                "Save".toUpperCase(),
                                 style: Styles.offwhite,
                               ),
                             ),

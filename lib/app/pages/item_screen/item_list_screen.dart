@@ -9,7 +9,11 @@ class ItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ItemController>(builder: (controller) {
+    return GetBuilder<ItemController>(initState: (state) {
+      final controller = Get.find<ItemController>();
+      controller.data = Get.arguments;
+      controller.getAllKots(tableId: controller.data?.id ?? '');
+    }, builder: (controller) {
       return Scaffold(
         backgroundColor: ColorsValue.white,
         appBar: AppBar(
@@ -20,7 +24,7 @@ class ItemScreen extends StatelessWidget {
             fontSize: Dimens.eighteen,
           ),
           title: Text(
-            "Table No.: 05".tr.toUpperCase(),
+            "Table No: ${controller.data?.tNumberInString ?? ''}".toUpperCase(),
           ),
           centerTitle: true,
           leading: InkWell(
@@ -95,24 +99,23 @@ class ItemScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Expanded(
-                      child: controller.kotList.length > 0
+                      child: controller.kotsData.isNotEmpty
                           ? ListView.builder(
-                              itemCount: 5,
+                              itemCount: controller.kotsData.length,
                               itemBuilder: ((context, index) {
-                                // var item = controller.kotList[index];
+                                var item = controller.kotsData[index];
                                 return InkWell(
                                   onTap: () {
-                                    RouteManagement.goToItemListScreen();
-                                    // RouteManagement.goToItemListScreen(
-                                    //     controller.kotId ?? "",
-                                    //     controller.isParcel,
-                                    //     controller.kotList[index].id);
+                                    RouteManagement.goToItemListScreen(
+                                      kotId: item.id ?? '',
+                                      tableId: controller.data?.id ?? '',
+                                    );
                                   },
                                   child: Padding(
                                     padding: Dimens.edgeInsets0_10_0_10,
                                     child: Container(
                                       padding: Dimens.edgeInsets20_0_20_0,
-                                      height: Get.width * .14, //Dimens.sixty
+                                      height: Get.width * .14,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(
                                           Dimens.eight,
@@ -127,16 +130,21 @@ class ItemScreen extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text("KOT: 05",
-                                              style: context
-                                                  .theme.textTheme.labelLarge!
-                                                  .copyWith(
-                                                fontSize:
-                                                    context.blockSizeVertical *
-                                                        1.7,
-                                              )
-                                              // Styles.main60012,
-                                              ),
+                                          Flexible(
+                                            child: Text("KOT: ${item.id}",
+                                                maxLines: 1,
+                                                softWrap: true,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: context
+                                                    .theme.textTheme.labelLarge!
+                                                    .copyWith(
+                                                  fontSize: context
+                                                          .blockSizeVertical *
+                                                      1.7,
+                                                )
+                                                // Styles.main60012,
+                                                ),
+                                          ),
                                           Icon(
                                             Icons.arrow_forward_ios,
                                             size: Dimens.fifteen,
