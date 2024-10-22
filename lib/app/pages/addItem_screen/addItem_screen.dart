@@ -168,9 +168,9 @@ class AddItemScreen extends StatelessWidget {
                                                   value: controller
                                                       .selectedCategory,
                                                   onChanged: (newValue) {
-                                                    controller
-                                                            .selectedCategory =
-                                                        newValue;
+                                                    // controller
+                                                    //         .selectedCategory =
+                                                    //     newValue!;
                                                     setState(() {});
                                                   },
                                                   items: categoryController
