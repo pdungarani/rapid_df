@@ -11,9 +11,9 @@ class AddItemController extends GetxController {
 
   final AddItemPresenter addItemPresenter;
 
-  String selectedCategory = '';
+  String selectedCategory = '1';
   bool isFilter = true;
-  int itemCounter = 1;
+  // int itemCounter = 1;
 
   List<GetCategoryElement> categoryLists = [
     GetCategoryElement(

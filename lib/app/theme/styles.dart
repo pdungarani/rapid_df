@@ -947,7 +947,6 @@ abstract class Styles {
   static TextStyle maintab60014 = GoogleFonts.poppins(
     color: ColorsValue.maincolor1,
     fontWeight: FontWeight.w600,
-
     fontSize: Dimens.sixteen, //14
   );
 
