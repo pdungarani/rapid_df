@@ -89,6 +89,7 @@ class ItemListScreen extends StatelessWidget {
                                 : true,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
+                            padding: Dimens.edgeInsets8,
                             backgroundColor: ColorsValue.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
@@ -107,7 +108,7 @@ class ItemListScreen extends StatelessWidget {
                             //     controller.isParcel);
                           },
                           child: Text(
-                            "additem".tr,
+                            "AddItem",
                             style: Styles.maintab60014,
                           ),
                         ),

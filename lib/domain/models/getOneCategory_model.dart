@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 GetOneCategoryModel getOneCategoryModelFromJson(String str) =>
     GetOneCategoryModel.fromJson(json.decode(str));
 
@@ -47,6 +49,8 @@ class oneCategoryDatum {
   bool? status;
   int? createTimestamp;
   DateTime? createdAt;
+  num itemCounter;
+  TextEditingController? remarkTextEditingController;
 
   oneCategoryDatum({
     this.id,
@@ -58,6 +62,8 @@ class oneCategoryDatum {
     this.status,
     this.createTimestamp,
     this.createdAt,
+    this.itemCounter = 0,
+    this.remarkTextEditingController,
   });
 
   factory oneCategoryDatum.fromJson(Map<String, dynamic> json) =>

@@ -121,6 +121,8 @@ class AddItemScreen extends StatelessWidget {
                                   builder: (context) {
                                     return StatefulBuilder(
                                       builder: (context, setState) {
+                                        final categoryController =
+                                            Get.find<CategoryController>();
                                         return Container(
                                           width: double.infinity,
                                           padding: Dimens.edgeInsets20,
@@ -162,42 +164,65 @@ class AddItemScreen extends StatelessWidget {
                                                     width: Dimens.one,
                                                   ),
                                                 ),
-                                                child: DropdownButton<String>(
-                                                  underline: Container(),
-                                                  hint: Text(
-                                                      'select_category'.tr,
-                                                      style: Styles.bold14),
-                                                  padding: EdgeInsets.only(
-                                                    left: Dimens.ten,
-                                                    right: Dimens.ten,
-                                                  ),
-                                                  isExpanded: true,
-                                                  isDense: false,
-                                                  icon: SvgPicture.asset(
-                                                      AssetConstants
-                                                          .ic_down_arrow),
+                                                child: DropdownButton(
                                                   value: controller
                                                       .selectedCategory,
-                                                  items:
-                                                      controller.categoryLists
-                                                          .map(
-                                                            (value) =>
-                                                                DropdownMenuItem(
-                                                              value: value.id,
-                                                              child: Text(
-                                                                value.name,
-                                                                style: Styles
-                                                                    .main60012,
-                                                              ),
-                                                            ),
-                                                          )
-                                                          .toList(),
                                                   onChanged: (newValue) {
                                                     controller
                                                             .selectedCategory =
-                                                        newValue!;
+                                                        newValue;
                                                     setState(() {});
                                                   },
+                                                  items: categoryController
+                                                      .categoryList
+                                                      .map(
+                                                    (location) {
+                                                      return DropdownMenuItem(
+                                                        value: location,
+                                                        child: Text(
+                                                          location.name ?? '',
+                                                          style:
+                                                              Styles.main60012,
+                                                        ),
+                                                      );
+                                                    },
+                                                  ).toList(),
+                                                  // DropdownButton<String>(
+                                                  //   underline: Container(),
+                                                  //   hint: Text(
+                                                  //       'select_category'.tr,
+                                                  //       style: Styles.bold14),
+                                                  //   padding: EdgeInsets.only(
+                                                  //     left: Dimens.ten,
+                                                  //     right: Dimens.ten,
+                                                  //   ),
+                                                  //   isExpanded: true,
+                                                  //   isDense: false,
+                                                  //   icon: SvgPicture.asset(
+                                                  //       AssetConstants
+                                                  //           .ic_down_arrow),
+                                                  //   value: controller
+                                                  //       .selectedCategory,
+                                                  //   items:
+                                                  //       ['1', '2', '3', '4', '5']
+                                                  //           .map(
+                                                  //             (value) =>
+                                                  //                 DropdownMenuItem(
+                                                  //               value: value,
+                                                  //               child: Text(
+                                                  //                 value,
+                                                  //                 style: Styles
+                                                  //                     .main60012,
+                                                  //               ),
+                                                  //             ),
+                                                  //           )
+                                                  //           .toList(),
+                                                  //   onChanged: (newValue) {
+                                                  //     controller
+                                                  //             .selectedCategory =
+                                                  //         newValue!;
+                                                  //     setState(() {});
+                                                  //   },
                                                 ),
                                               ),
                                               Dimens.boxHeight30,
@@ -279,7 +304,7 @@ class AddItemScreen extends StatelessWidget {
                                                     ),
                                                   ),
                                                 ],
-                                              )
+                                              ),
                                             ],
                                           ),
                                         );
@@ -402,10 +427,10 @@ class AddItemScreen extends StatelessWidget {
                                                                 Row(
                                                                   children: [
                                                                     GestureDetector(
-                                                                      onTap: controller.itemCounter >
+                                                                      onTap: categoryItem.itemCounter >
                                                                               0
                                                                           ? () {
-                                                                              controller.itemCounter--;
+                                                                              categoryItem.itemCounter--;
                                                                               setState(() {});
                                                                             }
                                                                           : () {},
@@ -437,10 +462,10 @@ class AddItemScreen extends StatelessWidget {
                                                                     ),
                                                                     Dimens
                                                                         .boxWidth10,
-                                                                    Text(controller.itemCounter <
+                                                                    Text(categoryItem.itemCounter <
                                                                             9
-                                                                        ? "0${controller.itemCounter.toString()}"
-                                                                        : controller
+                                                                        ? "0${categoryItem.itemCounter.toString()}"
+                                                                        : categoryItem
                                                                             .itemCounter
                                                                             .toString()),
                                                                     Dimens
@@ -448,8 +473,9 @@ class AddItemScreen extends StatelessWidget {
                                                                     GestureDetector(
                                                                       onTap:
                                                                           () {
-                                                                        controller
+                                                                        categoryItem
                                                                             .itemCounter++;
+
                                                                         setState(
                                                                             () {});
                                                                       },
@@ -484,6 +510,9 @@ class AddItemScreen extends StatelessWidget {
                                                                       .main60014,
                                                                 ),
                                                                 TextFormField(
+                                                                  controller:
+                                                                      categoryItem
+                                                                          .remarkTextEditingController,
                                                                   decoration:
                                                                       InputDecoration(
                                                                     hintText:
@@ -557,6 +586,7 @@ class AddItemScreen extends StatelessWidget {
                                                                           ),
                                                                           onPressed:
                                                                               () {
+                                                                            controller.update();
                                                                             Get.back();
                                                                           },
                                                                           child:
@@ -599,13 +629,13 @@ class AddItemScreen extends StatelessWidget {
                                             width: Dimens.zero,
                                           ),
                                         ),
-                                        child: true
+                                        child: categoryItem.itemCounter > 0
                                             ? Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   Text(
-                                                    "qty : ${categoryItem.price}"
+                                                    "qty : ${categoryItem.itemCounter}"
                                                         .toUpperCase(),
                                                     style: Styles.white10,
                                                   ),
@@ -615,16 +645,19 @@ class AddItemScreen extends StatelessWidget {
                                                   ),
                                                 ],
                                               )
-                                            : Center(
-                                                child: Text(
-                                                  // controller
-                                                  //         .getCategoryItemList[
-                                                  //             index]
-                                                  //         .isAdded
-                                                  // ?
-                                                  "Edit",
-                                                  // : "additem".tr,
-                                                  style: Styles.main70010,
+                                            : Container(
+                                                color: ColorsValue
+                                                    .blackColorWithOpacity59,
+                                                child: Center(
+                                                  child: Text(
+                                                    categoryItem.itemCounter > 0
+                                                        ? "Edit"
+                                                        : "addItem",
+                                                    style: Styles.main70010
+                                                        .copyWith(
+                                                            color: ColorsValue
+                                                                .white),
+                                                  ),
                                                 ),
                                               ),
                                       ),
@@ -642,10 +675,10 @@ class AddItemScreen extends StatelessWidget {
                           width: Get.width,
                           child: ElevatedButton(
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
+                              backgroundColor: WidgetStateProperty.all(
                                 ColorsValue.maincolor1,
                               ),
-                              shape: MaterialStateProperty.all<
+                              shape: WidgetStateProperty.all<
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                   borderRadius:
@@ -660,20 +693,12 @@ class AddItemScreen extends StatelessWidget {
                                     .map(
                                       (e) => Item(
                                         itemId: e.id,
-                                        quantity: 2,
-                                        remark: '',
+                                        quantity: e.itemCounter,
+                                        remark: e.remarkTextEditingController,
                                       ),
                                     )
                                     .toList(),
-                                // [
-                                //   Item(
-                                //     itemId: "66dada6dd67a48fb5bdb42dd",
-                                //     quantity: 2,
-                                //     remark: '',
-                                //   )
-                                // ],
                               );
-                              // controller.createKot(tableId: , items: []);
                             },
                             child: Padding(
                               padding: Dimens.edgeInsets0_10_0_10,
