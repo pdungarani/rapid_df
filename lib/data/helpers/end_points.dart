@@ -7,4 +7,6 @@ class EndPoints {
   static String getallCategory = 'user/categories/getall';
   static String getOneCategory = 'user/items/getall';
   static String createKot = 'user/kots/save';
+  static String downloadKot = 'user/kots/downloadkot';
+  
 }

@@ -9,6 +9,7 @@ abstract class Routes {
   static const categoryScreen = _Paths.categoryScreen;
   static const addItemScreen = _Paths.addItemScreen;
   static const profileScreen = _Paths.profileScreen;
+  static const downloadKotScreen = _Paths.downloadKotScreen;
 }
 
 abstract class _Paths {
@@ -20,4 +21,5 @@ abstract class _Paths {
   static const categoryScreen = '/categoryScreen';
   static const addItemScreen = '/addItemScreen';
   static const profileScreen = '/profileScreen';
+  static const downloadKotScreen = '/downloadKotScreen';
 }

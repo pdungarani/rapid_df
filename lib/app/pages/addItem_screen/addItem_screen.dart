@@ -18,6 +18,7 @@ class AddItemScreen extends StatelessWidget {
           search: '',
           categoryId: Get.arguments[0],
         );
+        controller.getAllCategory(search: '');
       },
       builder: (controller) {
         return Scaffold(
@@ -121,8 +122,6 @@ class AddItemScreen extends StatelessWidget {
                                   builder: (context) {
                                     return StatefulBuilder(
                                       builder: (context, setState) {
-                                        final categoryController =
-                                            Get.find<CategoryController>();
                                         return Container(
                                           width: double.infinity,
                                           padding: Dimens.edgeInsets20,
@@ -165,64 +164,39 @@ class AddItemScreen extends StatelessWidget {
                                                   ),
                                                 ),
                                                 child: DropdownButton(
+                                                  underline: Container(),
+                                                  hint: Text(
+                                                      'select_category'.tr,
+                                                      style: Styles.bold14),
+                                                  padding: EdgeInsets.only(
+                                                      left: Dimens.ten,
+                                                      right: Dimens.ten),
+                                                  isExpanded: true,
+                                                  isDense: false,
+                                                  icon: SvgPicture.asset(
+                                                      AssetConstants
+                                                          .ic_down_arrow),
                                                   value: controller
                                                       .selectedCategory,
+                                                  items: controller.categoryList
+                                                      .map(
+                                                        (value) =>
+                                                            DropdownMenuItem(
+                                                          value: value.id,
+                                                          child: Text(
+                                                            value.name ?? '',
+                                                            style: Styles
+                                                                .main60012,
+                                                          ),
+                                                        ),
+                                                      )
+                                                      .toList(),
                                                   onChanged: (newValue) {
                                                     controller
                                                             .selectedCategory =
-                                                        newValue;
+                                                        newValue ?? '';
                                                     setState(() {});
                                                   },
-                                                  items: categoryController
-                                                      .categoryList
-                                                      .map(
-                                                    (location) {
-                                                      return DropdownMenuItem(
-                                                        value: location,
-                                                        child: Text(
-                                                          location.name ?? '',
-                                                          style:
-                                                              Styles.main60012,
-                                                        ),
-                                                      );
-                                                    },
-                                                  ).toList(),
-                                                  // DropdownButton<String>(
-                                                  //   underline: Container(),
-                                                  //   hint: Text(
-                                                  //       'select_category'.tr,
-                                                  //       style: Styles.bold14),
-                                                  //   padding: EdgeInsets.only(
-                                                  //     left: Dimens.ten,
-                                                  //     right: Dimens.ten,
-                                                  //   ),
-                                                  //   isExpanded: true,
-                                                  //   isDense: false,
-                                                  //   icon: SvgPicture.asset(
-                                                  //       AssetConstants
-                                                  //           .ic_down_arrow),
-                                                  //   value: controller
-                                                  //       .selectedCategory,
-                                                  //   items:
-                                                  //       ['1', '2', '3', '4', '5']
-                                                  //           .map(
-                                                  //             (value) =>
-                                                  //                 DropdownMenuItem(
-                                                  //               value: value,
-                                                  //               child: Text(
-                                                  //                 value,
-                                                  //                 style: Styles
-                                                  //                     .main60012,
-                                                  //               ),
-                                                  //             ),
-                                                  //           )
-                                                  //           .toList(),
-                                                  //   onChanged: (newValue) {
-                                                  //     controller
-                                                  //             .selectedCategory =
-                                                  //         newValue!;
-                                                  //     setState(() {});
-                                                  //   },
                                                 ),
                                               ),
                                               Dimens.boxHeight30,
@@ -694,7 +668,8 @@ class AddItemScreen extends StatelessWidget {
                                       (e) => Item(
                                         itemId: e.id,
                                         quantity: e.itemCounter,
-                                        remark: e.remarkTextEditingController,
+                                        remark:
+                                            e.remarkTextEditingController ?? '',
                                       ),
                                     )
                                     .toList(),

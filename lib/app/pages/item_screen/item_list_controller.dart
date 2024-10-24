@@ -1,6 +1,7 @@
 import 'package:final_df/app/pages/item_screen/item_list_page.dart';
 import 'package:final_df/app/theme/theme.dart';
 import 'package:final_df/app/utils/utils.dart';
+import 'package:final_df/domain/models/downloadKot_model.dart';
 import 'package:final_df/domain/models/getKot_model.dart';
 import 'package:final_df/domain/models/models.dart';
 import 'package:flutter/widgets.dart';
@@ -65,6 +66,26 @@ class ItemController extends GetxController {
     } else {
       getOneKotData = response.data;
       getOneKot.addAll(getOneKotData?.items ?? []);
+    }
+    update();
+  }
+
+  DownloadKotData? downloadKotData;
+
+  Future<void> downloadKot({
+    bool isLoading = true,
+    required String tableId,
+    required String kotId,
+  }) async {
+    var response = await itemPresenter.downloadKot(
+      isLoading: isLoading,
+      tableId: tableId,
+      kotId: kotId,
+    );
+    if (response == null) {
+      Utility.snacBar(response!.message ?? '', ColorsValue.maincolor1);
+    } else {
+      downloadKotData = response.data;
     }
     update();
   }

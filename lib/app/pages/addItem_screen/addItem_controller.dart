@@ -1,9 +1,11 @@
+import 'package:final_df/app/navigators/navigators.dart';
 import 'package:final_df/app/pages/addItem_screen/addItem_page.dart';
 import 'package:final_df/app/theme/theme.dart';
 import 'package:final_df/app/utils/utils.dart';
 import 'package:final_df/domain/models/createKot_model.dart';
 import 'package:final_df/domain/models/create_model.dart';
 import 'package:final_df/domain/models/getoneCategory_model.dart';
+import 'package:final_df/domain/models/models.dart';
 import 'package:get/get.dart';
 
 class AddItemController extends GetxController {
@@ -11,28 +13,8 @@ class AddItemController extends GetxController {
 
   final AddItemPresenter addItemPresenter;
 
-  String selectedCategory = '1';
+  String selectedCategory = 'select_category'.tr;
   bool isFilter = true;
-  // int itemCounter = 1;
-
-  List<GetCategoryElement> categoryLists = [
-    GetCategoryElement(
-      id: '1',
-      name: 'testCategory'.tr,
-    ),
-    GetCategoryElement(
-      id: '2',
-      name: 'allcategory'.tr,
-    ),
-    GetCategoryElement(
-      id: '3',
-      name: 'allcategory'.tr,
-    ),
-    GetCategoryElement(
-      id: '5',
-      name: 'allcategory'.tr,
-    ),
-  ];
 
   List<oneCategoryDatum> internalItemList = [];
   List getCategoryItemList = [];
@@ -77,10 +59,33 @@ class AddItemController extends GetxController {
     );
     if (response?.data != null) {
       kotData = response?.data;
+      RouteManagement.goToDownloadKotScreen(
+        tableId: kotData?.tableId ?? '',
+        categoryId: kotData?.kotId,
+      );
     } else {
       Utility.snacBar(response!.message ?? '', ColorsValue.maincolor1);
     }
     print(getCategoryItemList);
+    update();
+  }
+
+  List<CategoryDatum> categoryList = [];
+
+  Future<void> getAllCategory({
+    bool isLoading = true,
+    required String search,
+  }) async {
+    var response = await addItemPresenter.getAllCategory(
+      isLoading: isLoading,
+      search: search,
+    );
+    categoryList.clear();
+    if (response == null) {
+      Utility.snacBar(response!.message ?? '', ColorsValue.maincolor1);
+    } else {
+      categoryList.addAll(response.data ?? []);
+    }
     update();
   }
 }
