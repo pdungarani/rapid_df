@@ -112,6 +112,17 @@ class DataRepository extends DomainRepository {
         kotId: kotId,
       );
 
+      Future<ResponseModel> downloadKot({
+    bool isLoading = false,
+    required String tableId,
+    required String kotId,
+  }) async =>
+      connectHelper.downloadKot(
+        isLoading: isLoading,
+        tableId: tableId,
+        kotId: kotId,
+      );
+
   Future<ResponseModel> getAllCategory({
     bool isLoading = false,
     required String search,

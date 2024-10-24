@@ -6,6 +6,7 @@ import 'package:final_df/device/device.dart';
 import 'package:final_df/domain/entities/entities.dart';
 import 'package:final_df/domain/models/createKot_model.dart';
 import 'package:final_df/domain/models/create_model.dart';
+import 'package:final_df/domain/models/downloadKot_model.dart';
 import 'package:final_df/domain/models/getOneCategory_model.dart';
 import 'package:final_df/domain/models/getKot_model.dart';
 import 'package:final_df/domain/models/models.dart';
@@ -256,6 +257,32 @@ class Repository {
         Utility.showMessage(
             getOneKot.message.toString(), MessageType.error, () => null, '');
         return getOneKot;
+      }
+    } catch (_) {
+      Utility.closeDialog();
+      UnimplementedError();
+      return null;
+    }
+  }
+
+  Future<DownloadKotModel?> downloadKot({
+    required String tableId,
+    required String kotId,
+    bool isLoading = false,
+  }) async {
+    try {
+      var response = await _dataRepository.downloadKot(
+        isLoading: isLoading,
+        tableId: tableId,
+        kotId: kotId,
+      );
+      var downloadKot = downloadKotModelFromJson(response.data);
+      if (downloadKot.status == 200) {
+        return downloadKot;
+      } else {
+        Utility.showMessage(
+            downloadKot.message.toString(), MessageType.error, () => null, '');
+        return downloadKot;
       }
     } catch (_) {
       Utility.closeDialog();

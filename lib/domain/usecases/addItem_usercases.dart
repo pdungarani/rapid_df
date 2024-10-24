@@ -1,6 +1,7 @@
 import 'package:final_df/domain/models/createKot_model.dart';
 import 'package:final_df/domain/models/create_model.dart';
 import 'package:final_df/domain/models/getOneCategory_model.dart';
+import 'package:final_df/domain/models/models.dart';
 import 'package:final_df/domain/repositories/repositories.dart';
 
 class AddItemUsecases {
@@ -28,5 +29,14 @@ class AddItemUsecases {
         isLoading: isLoading,
         tableId: tableId,
         items: items,
+      );
+
+  Future<GetCategoryModel?> getAllCategory({
+    bool isLoading = false,
+    required String search,
+  }) async =>
+      await repository.getAllCategory(
+        isLoading: isLoading,
+        search: search,
       );
 }

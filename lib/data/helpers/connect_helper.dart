@@ -160,6 +160,25 @@ class ConnectHelper {
     return response;
   }
 
+  Future<ResponseModel> downloadKot({
+    required String tableId,
+    required String kotId,
+    bool isLoading = false,
+  }) async {
+    var data = {
+      'tableId': tableId,
+      'kotId': kotId,
+    };
+    var response = await apiWrapper.makeRequest(
+      EndPoints.downloadKot,
+      Request.post,
+      data,
+      isLoading,
+      Utility.commonHeader(),
+    );
+    return response;
+  }
+
   Future<ResponseModel> getAllCategory({
     required String search,
     bool isLoading = false,

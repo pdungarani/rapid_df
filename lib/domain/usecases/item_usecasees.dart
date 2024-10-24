@@ -1,3 +1,4 @@
+import 'package:final_df/domain/models/downloadKot_model.dart';
 import 'package:final_df/domain/models/getoneKoy_model.dart';
 import 'package:final_df/domain/models/getKot_model.dart';
 import 'package:final_df/domain/repositories/repositories.dart';
@@ -22,6 +23,17 @@ class ItemUsecases {
     required String kotId,
   }) async =>
       await repository.getOneKots(
+        isLoading: isLoading,
+        tableId: tableId,
+        kotId: kotId,
+      );
+
+  Future<DownloadKotModel?> downloadKot({
+    bool isLoading = false,
+    required String tableId,
+    required String kotId,
+  }) async =>
+      await repository.downloadKot(
         isLoading: isLoading,
         tableId: tableId,
         kotId: kotId,

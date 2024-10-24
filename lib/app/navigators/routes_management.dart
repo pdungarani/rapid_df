@@ -17,4 +17,8 @@ abstract class RouteManagement {
           {String? categoryId, required String tableId}) =>
       Get.toNamed<void>(Routes.addItemScreen, arguments: [categoryId, tableId]);
   static void goToProfileScreen() => Get.toNamed<void>(Routes.profileScreen);
+  static void goToDownloadKotScreen(
+          {String? categoryId, required String tableId}) =>
+      Get.toNamed<void>(Routes.downloadKotScreen,
+          arguments: [categoryId, tableId]);
 }

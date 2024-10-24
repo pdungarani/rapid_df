@@ -1,3 +1,4 @@
+import 'package:final_df/app/pages/item_screen/Screens/download_kot_screen.dart';
 import 'package:final_df/app/pages/profile_screen/profile_page.dart';
 import 'package:get/get.dart';
 import 'package:final_df/app/pages/pages.dart';
@@ -62,6 +63,13 @@ class AppPages {
       name: _Paths.profileScreen,
       transitionDuration: transitionDuration,
       page: ProfileScreen.new,
+      binding: ProfileBinding(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage<DownloadKotScreen>(
+      name: _Paths.downloadKotScreen,
+      transitionDuration: transitionDuration,
+      page: DownloadKotScreen.new,
       binding: ProfileBinding(),
       transition: Transition.fadeIn,
     ),
