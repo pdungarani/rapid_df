@@ -2,6 +2,7 @@ import 'package:final_df/app/pages/category_screen/category_page.dart';
 import 'package:final_df/app/theme/theme.dart';
 import 'package:final_df/app/utils/utils.dart';
 import 'package:final_df/domain/models/models.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CategoryController extends GetxController {
@@ -44,7 +45,9 @@ class CategoryController extends GetxController {
 
   List<CategoryDatum> categoryList = [];
 
-  Future<void> getoneKots({
+  TextEditingController? searchCategoryController;
+
+  Future<void> getAllCategory({
     bool isLoading = true,
     required String search,
   }) async {

@@ -1,3 +1,4 @@
+import 'package:final_df/app/navigators/navigators.dart';
 import 'package:final_df/app/pages/item_screen/item_list_page.dart';
 import 'package:final_df/app/theme/theme.dart';
 import 'package:final_df/app/utils/utils.dart';
@@ -17,13 +18,6 @@ class ItemController extends GetxController {
   String? subKotId = "";
   int? tableNumber = 1;
   GetAssignDatum? data;
-  // List<String> kotList = [
-  //   '1',
-  //   '2',
-  //   '3',
-  //   '4',
-  //   '5',
-  // ];
   bool isParcel = false;
   int kotCount = 0;
   TextEditingController remarkAddItemController = TextEditingController();
@@ -85,7 +79,13 @@ class ItemController extends GetxController {
     if (response == null) {
       Utility.snacBar(response!.message ?? '', ColorsValue.maincolor1);
     } else {
+      var controller = Get.find<ItemController>();
       downloadKotData = response.data;
+      RouteManagement.goToItemListScreen(
+        kotId: kotId,
+        tableId: tableId,
+        isDownloadKot: true,
+      );
     }
     update();
   }

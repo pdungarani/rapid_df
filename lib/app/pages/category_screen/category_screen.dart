@@ -14,7 +14,7 @@ class CategoryScreen extends StatelessWidget {
     return GetBuilder<CategoryController>(
       initState: (state) {
         var controller = Get.find<CategoryController>();
-        controller.getoneKots(search: '');
+        controller.getAllCategory(search: '');
       },
       builder: (controller) => PopScope(
         canPop: false,
@@ -62,13 +62,13 @@ class CategoryScreen extends StatelessWidget {
                       ),
                       Dimens.boxHeight10,
                       TextFormField(
-                        // controller: controller.searchCategoryController,
-                        // onChanged: (value) {
-                        //   debouncer.run(() {
-                        //     Future.sync(() => controller.postCategoryList(
-                        //         search: value.toString()));
-                        //   });
-                        // },
+                        controller: controller.searchCategoryController,
+                        onChanged: (value) {
+                          debouncer.run(() {
+                            Future.sync(() => controller.getAllCategory(
+                                search: value.toString()));
+                          });
+                        },
                         decoration: InputDecoration(
                           contentPadding:
                               EdgeInsets.symmetric(vertical: Dimens.ten),

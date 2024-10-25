@@ -17,7 +17,6 @@ class ItemScreen extends StatelessWidget {
       return Scaffold(
         backgroundColor: ColorsValue.white,
         appBar: AppBar(
-          // titleTextStyle: Styles.white70018,
           titleTextStyle: context.theme.textTheme.bodyLarge!.copyWith(
             color: ColorsValue.white,
             fontWeight: FontWeight.w700,
@@ -51,9 +50,6 @@ class ItemScreen extends StatelessWidget {
           visible: true,
           child: Padding(
             padding: Dimens.edgeInsets0,
-            // padding: !controller.isKotData
-            //     ? Dimens.edgeInsets0
-            //     : Dimens.edgeInsetsBottom60,
             child: !context.isTablet
                 ? FloatingActionButton(
                     shape: RoundedRectangleBorder(
@@ -62,7 +58,10 @@ class ItemScreen extends StatelessWidget {
                       ),
                     ),
                     backgroundColor: ColorsValue.maincolor1,
-                    onPressed: () {},
+                    onPressed: () {
+                      RouteManagement.goToCategoryScreen(
+                          tableId: controller.data?.id ?? '');
+                    },
                     child: Icon(
                       Icons.add,
                       color: ColorsValue.white,
@@ -131,19 +130,19 @@ class ItemScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Flexible(
-                                            child: Text("KOT: ${item.kotNo}",
-                                                maxLines: 1,
-                                                softWrap: true,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: context
-                                                    .theme.textTheme.labelLarge!
-                                                    .copyWith(
-                                                  fontSize: context
-                                                          .blockSizeVertical *
-                                                      1.7,
-                                                )
-                                                // Styles.main60012,
-                                                ),
+                                            child: Text(
+                                              "KOT: ${item.kotNo}",
+                                              maxLines: 1,
+                                              softWrap: true,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: context
+                                                  .theme.textTheme.labelLarge!
+                                                  .copyWith(
+                                                fontSize:
+                                                    context.blockSizeVertical *
+                                                        1.7,
+                                              ),
+                                            ),
                                           ),
                                           Icon(
                                             Icons.arrow_forward_ios,
@@ -161,12 +160,7 @@ class ItemScreen extends StatelessWidget {
                             ),
                     ),
                     Visibility(
-                      // visible: !controller.isKotData
-                      //     ? false
-                      //     : controller.kotData?.isCompleted ?? false
-                      //         ? false
-                      //         : true,
-                      visible: false,
+                      visible: true,
                       child: Align(
                         alignment: Alignment.bottomCenter,
                         child: Row(
@@ -189,9 +183,7 @@ class ItemScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                onPressed: () {
-                                  // controller.postFinalBill(controller.kotId);
-                                },
+                                onPressed: () {},
                                 child: Padding(
                                   padding: Dimens.edgeInsets0_10_0_10,
                                   child: Text(
