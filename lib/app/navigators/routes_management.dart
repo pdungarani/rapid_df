@@ -9,8 +9,11 @@ abstract class RouteManagement {
   static void goToItemScreen(GetAssignDatum tableData) =>
       Get.toNamed<void>(Routes.itemScreen, arguments: tableData);
   static void goToItemListScreen(
-          {required String kotId, required String tableId}) =>
-      Get.toNamed<void>(Routes.itemListScreen, arguments: [kotId, tableId]);
+          {required String kotId,
+          required String tableId,
+          bool isDownloadKot = false}) =>
+      Get.toNamed<void>(Routes.itemListScreen,
+          arguments: [kotId, tableId, isDownloadKot]);
   static void goToCategoryScreen({required String tableId}) =>
       Get.toNamed<void>(Routes.categoryScreen, arguments: tableId);
   static void goToaddItemScreen(

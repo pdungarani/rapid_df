@@ -24,4 +24,5 @@ abstract class AssetConstants {
   static const String ic_profile = 'assets/Icons/shop.svg';
   static const String Usera = 'assets/Icons/usera.svg';
   static const String ic_Call = 'assets/Icons/call.svg';
+  static const String are_you_sure = 'assets/images/are_you_sure.png';
 }

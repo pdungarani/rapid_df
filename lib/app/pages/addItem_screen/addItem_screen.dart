@@ -14,9 +14,10 @@ class AddItemScreen extends StatelessWidget {
     return GetBuilder<AddItemController>(
       initState: (state) {
         final controller = Get.find<AddItemController>();
+        controller.selectedCategory = Get.arguments[0];
         controller.getOneCategory(
           search: '',
-          categoryId: Get.arguments[0],
+          categoryId: controller.selectedCategory,
         );
         controller.getAllCategory(search: '');
       },
@@ -68,6 +69,17 @@ class AddItemScreen extends StatelessWidget {
                           Expanded(
                             flex: 9,
                             child: TextFormField(
+                              controller: controller.searchController,
+                              onChanged: (value) {
+                                debouncer.run(() {
+                                  Future.sync(
+                                    () => controller.getOneCategory(
+                                        search: value.toString(),
+                                        categoryId:
+                                            controller.selectedCategory),
+                                  );
+                                });
+                              },
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(
                                   vertical: Dimens.ten,
@@ -195,6 +207,7 @@ class AddItemScreen extends StatelessWidget {
                                                     controller
                                                             .selectedCategory =
                                                         newValue ?? '';
+                                                    controller.update();
                                                     setState(() {});
                                                   },
                                                 ),
@@ -247,8 +260,12 @@ class AddItemScreen extends StatelessWidget {
                                                   Expanded(
                                                     child: InkWell(
                                                       onTap: () {
-                                                        controller.isFilter =
-                                                            true;
+                                                        controller
+                                                            .getOneCategory(
+                                                          search: '',
+                                                          categoryId: controller
+                                                              .selectedCategory,
+                                                        );
                                                         Get.back();
                                                       },
                                                       child: Container(
@@ -288,8 +305,8 @@ class AddItemScreen extends StatelessWidget {
                                 );
                               },
                               child: Container(
-                                height: Dimens.fifty,
-                                width: Dimens.fourtyFive,
+                                height: Dimens.fourtyFive,
+                                width: Dimens.fourty,
                                 padding: Dimens.edgeInsets10,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(
@@ -667,7 +684,7 @@ class AddItemScreen extends StatelessWidget {
                                     .map(
                                       (e) => Item(
                                         itemId: e.id,
-                                        quantity: e.itemCounter,
+                                        quantity: e.itemCounter ?? 0,
                                         remark:
                                             e.remarkTextEditingController ?? '',
                                       ),

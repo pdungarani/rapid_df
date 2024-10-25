@@ -6,6 +6,7 @@ import 'package:final_df/domain/models/createKot_model.dart';
 import 'package:final_df/domain/models/create_model.dart';
 import 'package:final_df/domain/models/getoneCategory_model.dart';
 import 'package:final_df/domain/models/models.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class AddItemController extends GetxController {
@@ -13,8 +14,10 @@ class AddItemController extends GetxController {
 
   final AddItemPresenter addItemPresenter;
 
-  String selectedCategory = 'select_category'.tr;
+  String selectedCategory = '';
   bool isFilter = true;
+
+  TextEditingController? searchController;
 
   List<oneCategoryDatum> internalItemList = [];
   List getCategoryItemList = [];
@@ -29,6 +32,7 @@ class AddItemController extends GetxController {
       search: search,
       categoryId: categoryId,
     );
+    getCategoryItemList.clear();
     if (response?.data != null) {
       for (var data in response?.data ?? []) {
         var index =
@@ -40,7 +44,7 @@ class AddItemController extends GetxController {
         }
       }
     } else {
-      Utility.snacBar(response!.message ?? '', ColorsValue.maincolor1);
+      Utility.snacBar(response?.message ?? '', ColorsValue.maincolor1);
     }
     update();
   }
