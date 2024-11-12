@@ -4,5 +4,4 @@ export 'bottom_bar_usecases.dart';
 export 'home_usecases.dart';
 export 'item_usecasees.dart';
 export 'category_usecases.dart';
-export 'addItem_usercases.dart';
 export 'profile_usercases.dart';

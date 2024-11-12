@@ -233,4 +233,42 @@ class ConnectHelper {
     );
     return response;
   }
+
+  Future<ResponseModel> postShiftOrder({
+    required String from,
+    required String to,
+    bool isLoading = false,
+  }) async {
+    var data = {
+      'from': from,
+      'to': to,
+    };
+    var response = await apiWrapper.makeRequest(
+      EndPoints.postShiftOrder,
+      Request.post,
+      data,
+      isLoading,
+      Utility.commonHeader(),
+    );
+    return response;
+  }
+
+  Future<ResponseModel> postCategoryItem({
+    required String search,
+    required String categoryId,
+    bool isLoading = false,
+  }) async {
+    var data = {
+      'search': search,
+      'categoryId': categoryId,
+    };
+    var response = await apiWrapper.makeRequest(
+      EndPoints.postCategoryItem,
+      Request.post,
+      data,
+      isLoading,
+      Utility.commonHeader(),
+    );
+    return response;
+  }
 }

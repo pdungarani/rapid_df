@@ -195,23 +195,25 @@ class ProfileScreen extends StatelessWidget {
                             );
                           },
                           child: Container(
+                            alignment: Alignment.center,
+                            height: Dimens.fifty,
+                            margin: Dimens.edgeInsetsBottom30,
                             decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12))),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 13),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(AssetConstants.logouticon),
-                                  Dimens.boxWidth12,
-                                  Text(
-                                    "Log out".tr.toUpperCase(),
-                                    style: Styles.red60012,
-                                  ),
-                                ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
                               ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(AssetConstants.logouticon),
+                                Dimens.boxWidth12,
+                                Text(
+                                  "Log out".tr.toUpperCase(),
+                                  style: Styles.red60012,
+                                ),
+                              ],
                             ),
                           ),
                         ),

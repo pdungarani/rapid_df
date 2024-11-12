@@ -1,3 +1,4 @@
+import 'package:final_df/app/app.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -5,6 +6,13 @@ ThemeData themeData(BuildContext context) => ThemeData(
       disabledColor: const Color(0xFFEEEEEE),
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: Colors.transparent,
+      ),
+      dialogBackgroundColor: ColorsValue.white,
+      dropdownMenuTheme: DropdownMenuThemeData(
+        inputDecorationTheme: InputDecorationTheme(
+          fillColor: ColorsValue.white,
+          filled: true,
+        ),
       ),
       shadowColor: const Color(0xFFDDE3FD),
       checkboxTheme: CheckboxThemeData(

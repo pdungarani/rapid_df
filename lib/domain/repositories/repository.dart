@@ -367,4 +367,49 @@ class Repository {
       return null;
     }
   }
+
+  Future<ResponseModel?> postShiftOrder({
+    required String from,
+    required String to,
+    bool isLoading = false,
+  }) async {
+    try {
+      var response = await _dataRepository.postShiftOrder(
+        from: from,
+        to: to,
+        isLoading: isLoading,
+      );
+      return response;
+    } catch (_) {
+      Utility.closeDialog();
+      UnimplementedError();
+      return null;
+    }
+  }
+
+  Future<CategoryItemModel?> postCategoryItem({
+    required String search,
+    required String categoryId,
+    bool isLoading = false,
+  }) async {
+    try {
+      var response = await _dataRepository.postCategoryItem(
+        isLoading: isLoading,
+        search: search,
+        categoryId: categoryId,
+      );
+      var createKotModel = categoryItemModelFromJson(response.data);
+      if (createKotModel.status == 200) {
+        return createKotModel;
+      } else {
+        Utility.showMessage(createKotModel.message.toString(),
+            MessageType.error, () => null, '');
+        return createKotModel;
+      }
+    } catch (e) {
+      Utility.closeDialog();
+      UnimplementedError();
+      return null;
+    }
+  }
 }

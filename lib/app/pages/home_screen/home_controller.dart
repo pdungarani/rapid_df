@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:final_df/domain/models/models.dart';
 import 'package:get/get.dart';
 import 'package:final_df/app/app.dart';
@@ -21,6 +23,7 @@ class HomeController extends GetxController {
   String selectaddressecommerce = '0';
 
   List<GetAssignDatum> tableList = [];
+  List<String> joinTableList = [];
 
   Future<void> getAssignedTables(
       String orderIds, bool isLoad, List<String> tableNumbers) async {
@@ -44,6 +47,26 @@ class HomeController extends GetxController {
         //     //     .getOneOrder(data.kotId ?? "", false);
         //   }
         // }
+      }
+      update();
+    }
+  }
+
+  Future<void> postShiftOrder({
+    bool isLoading = true,
+  }) async {
+    var response = await homePresenter.postShiftOrder(
+        isLoading: isLoading,
+        from: tableList[isselected].id ?? "",
+        to: tableList[int.parse(selectaddressecommerce)].id ?? "");
+    if (response != null) {
+      isshift = false;
+      isselected = -1;
+      var res = jsonDecode(response.data);
+      if (response.hasError == true) {
+        Utility.snacBar(res["Message"], ColorsValue.maincolor1);
+      } else {
+        await getAssignedTables("", true, []);
       }
       update();
     }

@@ -1,27 +1,18 @@
-import 'package:final_df/domain/models/models.dart';
+import 'package:final_df/domain/domain.dart';
 import 'package:get/get.dart';
 
 import 'app_pages.dart';
 
 abstract class RouteManagement {
   static void goToLoginScreen() => Get.offAllNamed<void>(Routes.loginScreen);
-  static void goToHomeScreen() => Get.toNamed<void>(Routes.homeScreen);
-  static void goToItemScreen(GetAssignDatum tableData) =>
-      Get.toNamed<void>(Routes.itemScreen, arguments: tableData);
-  static void goToItemListScreen(
-          {required String kotId,
-          required String tableId,
-          bool isDownloadKot = false}) =>
-      Get.toNamed<void>(Routes.itemListScreen,
-          arguments: [kotId, tableId, isDownloadKot]);
-  static void goToCategoryScreen({required String tableId}) =>
-      Get.toNamed<void>(Routes.categoryScreen, arguments: tableId);
-  static void goToaddItemScreen(
-          {String? categoryId, required String tableId}) =>
-      Get.toNamed<void>(Routes.addItemScreen, arguments: [categoryId, tableId]);
+  static void goToHomeScreen() => Get.offAllNamed<void>(Routes.homeScreen);
   static void goToProfileScreen() => Get.toNamed<void>(Routes.profileScreen);
-  static void goToDownloadKotScreen(
-          {String? categoryId, required String tableId}) =>
-      Get.toNamed<void>(Routes.downloadKotScreen,
-          arguments: [categoryId, tableId]);
+  static void goToKotScreen(GetAssignDatum getAssignDatum) =>
+      Get.toNamed<void>(Routes.kotScreenMobile, arguments: getAssignDatum);
+  static void goToCategoriesItemMobile() =>
+      Get.toNamed<void>(Routes.categoriesItemMobile);
+  static void goToAddItemScreenMobile(String id) =>
+      Get.toNamed<void>(Routes.addItemScreenMobile, arguments: id);
+  static void goToItemListScreenMobile() =>
+      Get.toNamed<void>(Routes.itemListScreenMobile);
 }

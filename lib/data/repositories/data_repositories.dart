@@ -112,7 +112,7 @@ class DataRepository extends DomainRepository {
         kotId: kotId,
       );
 
-      Future<ResponseModel> downloadKot({
+  Future<ResponseModel> downloadKot({
     bool isLoading = false,
     required String tableId,
     required String kotId,
@@ -152,5 +152,27 @@ class DataRepository extends DomainRepository {
         isLoading: isLoading,
         tableId: tableId,
         items: items,
+      );
+
+  Future<ResponseModel> postShiftOrder({
+    required String from,
+    required String to,
+    bool isLoading = false,
+  }) async =>
+      connectHelper.postShiftOrder(
+        from: from,
+        to: to,
+        isLoading: isLoading,
+      );
+
+  Future<ResponseModel> postCategoryItem({
+    required String search,
+    required String categoryId,
+    bool isLoading = false,
+  }) async =>
+      connectHelper.postCategoryItem(
+        search: search,
+        categoryId: categoryId,
+        isLoading: isLoading,
       );
 }

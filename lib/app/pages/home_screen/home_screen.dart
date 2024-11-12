@@ -1,6 +1,7 @@
 import 'package:final_df/app/app.dart';
 import 'package:final_df/app/theme/constan.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -42,10 +43,8 @@ class HomeScreen extends StatelessWidget {
                             style: context.theme.textTheme.titleLarge!.copyWith(
                               color: ColorsValue.lightmaincolor,
                               fontSize: context.blockSizeVertical * 2.4,
-                              // fontWeight: FontWeight.w700,
-                              //   // fontSize: 18,
+                              fontWeight: FontWeight.w700,
                             ),
-                            // Styles.titlestyle70018,
                           ),
                         ),
                       ),
@@ -55,117 +54,178 @@ class HomeScreen extends StatelessWidget {
                         },
                         child: Image.asset(
                           AssetConstants.profile,
-                          height: Dimens.thirtyFour,
+                          height: Dimens.fifty,
+                          width: Dimens.fifty,
                         ),
                       ),
                       Dimens.boxWidth10,
                     ],
                   ),
                   Dimens.boxHeight10,
-                  controller.selection == 1
-                      ? Expanded(
-                          child: RefreshIndicator(
-                            onRefresh: () async {},
-                            child: GridView.builder(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisExtent: Dimens.fourty,
-                                crossAxisSpacing: Dimens.twelve,
-                                mainAxisSpacing: Dimens.twelve,
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () => Future.sync(
+                        () => controller.getAssignedTables("", true, []),
+                      ),
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisExtent: Dimens.fourty,
+                          crossAxisSpacing: Dimens.twelve,
+                          mainAxisSpacing: Dimens.twelve,
+                        ),
+                        itemCount: controller.tableList.length,
+                        padding: Dimens.edgeInsets0_08_0_08,
+                        itemBuilder: (context, index) {
+                          final tableDetail = controller.tableList[index];
+                          return InkWell(
+                            onTap: () {
+                              RouteManagement.goToKotScreen(tableDetail);
+                            },
+                            onLongPress: () {
+                              if (controller.isselected == index) {
+                                controller.isselected = -1;
+                                controller.tableList[index].isSelect = false;
+                                controller.joinTableList.remove(
+                                    controller.tableList[index].id ?? "");
+                              } else if (controller
+                                      .tableList[index].isOccupied ==
+                                  true) {
+                                controller.isselected = index;
+                                controller.tableList[index].isSelect = true;
+                                controller.joinTableList
+                                    .add(controller.tableList[index].id ?? "");
+                              }
+                              controller.update();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: controller.isselected == index
+                                    ? ColorsValue.maincolor1
+                                    : ColorsValue.lightNude,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(Dimens.eight),
+                                ),
                               ),
-                              itemCount: controller.tableList.length,
-                              padding: Dimens.edgeInsets0_08_0_08,
-                              itemBuilder: (context, index) {
-                                final tableDetail = controller.tableList[index];
-                                return InkWell(
-                                  onTap: controller.isselected == -1
-                                      ? () {
-                                          RouteManagement.goToItemScreen(
-                                              tableDetail);
-                                        }
-                                      : () {
-                                          print(
-                                              "object ${controller.isselected}");
-                                        },
-                                  onLongPress: () {
-                                    controller.isselected = index;
-                                    controller.update();
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: controller.isselected == index
-                                          ? ColorsValue.maincolor1
-                                          : ColorsValue.lightNude,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(Dimens.eight),
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        tableDetail.tNumberInString ?? '0',
-                                        style: context
-                                            .theme.textTheme.labelMedium!
-                                            .copyWith(
-                                          color: controller.isselected == index
-                                              ? ColorsValue.white
-                                              : ColorsValue.maincolor1,
-                                          fontSize:
-                                              context.blockSizeVertical * 1.8,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        )
-                      : Expanded(
-                          child: RefreshIndicator(
-                            onRefresh: () => Future.sync(
-                              () => controller,
-                            ),
-                            child: GridView.builder(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisExtent: Dimens.fourty,
-                                crossAxisSpacing: Dimens.twelve,
-                                mainAxisSpacing: Dimens.twelve,
-                              ),
-                              itemCount: 5,
-                              padding: Dimens.edgeInsets0_08_0_08,
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: () {},
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: controller.isselected == index
-                                          ? ColorsValue.maincolor1
-                                          : ColorsValue.greyLight,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(Dimens.eight),
-                                      ),
-                                    ),
+                              child: Row(
+                                children: [
+                                  Expanded(
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          "a234567",
-                                          style: controller.isselected == index
-                                              ? Styles.white60012
-                                              : Styles.main60012,
-                                        ),
+                                        controller.tableList[index].isOccupied!
+                                            ? Visibility(
+                                                visible: controller.isjoin
+                                                    ? false
+                                                    : true,
+                                                child: Padding(
+                                                  padding:
+                                                      Dimens.edgeInsetsLeft15,
+                                                  child: Center(
+                                                    child: SvgPicture.asset(
+                                                      AssetConstants.isocupaid,
+                                                      colorFilter:
+                                                          const ColorFilter
+                                                              .mode(
+                                                        Colors.red,
+                                                        BlendMode.srcIn,
+                                                      ),
+                                                      height: Dimens.twenty,
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            : controller.isshift
+                                                ? Radio(
+                                                    value: index.toString(),
+                                                    fillColor:
+                                                        WidgetStateProperty
+                                                            .resolveWith<Color>(
+                                                      (Set<WidgetState>
+                                                          states) {
+                                                        return ColorsValue
+                                                            .maincolor1;
+                                                      },
+                                                    ),
+                                                    groupValue: controller
+                                                        .selectaddressecommerce,
+                                                    onChanged: (value) {
+                                                      controller
+                                                              .selectaddressecommerce =
+                                                          value!;
+                                                      controller.update();
+                                                    },
+                                                  )
+                                                : Container(),
+                                        controller.isjoin &&
+                                                controller.tableList[index]
+                                                    .isOccupied! &&
+                                                !controller.tableList[index]
+                                                    .isCompleted! &&
+                                                controller.isselected != index
+                                            ? Checkbox(
+                                                activeColor:
+                                                    ColorsValue.maincolor1,
+                                                focusColor:
+                                                    ColorsValue.maincolor1,
+                                                autofocus: true,
+                                                checkColor: ColorsValue.white,
+                                                value: controller
+                                                    .tableList[index].isSelect,
+                                                onChanged: (value) {
+                                                  controller.tableList[index]
+                                                      .isSelect = value!;
+                                                  if (value) {
+                                                    controller.joinTableList
+                                                        .add(controller
+                                                                .tableList[
+                                                                    index]
+                                                                .id ??
+                                                            "");
+                                                  } else {
+                                                    controller.joinTableList
+                                                        .remove(controller
+                                                                .tableList[
+                                                                    index]
+                                                                .id ??
+                                                            "");
+                                                  }
+                                                  controller.update();
+                                                },
+                                              )
+                                            : Container(),
                                       ],
                                     ),
                                   ),
-                                );
-                              },
+                                  Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        '${controller.tableList[index].tNumber}',
+                                        style: controller.isselected == index
+                                            ? Styles.white60012
+                                            : Styles.main60012,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: "" == "joint "
+                                        // controller.tableList[index].orderid
+                                        //             ?.type ==
+                                        //         "joint"
+                                        ? SvgPicture.asset(
+                                            AssetConstants.ic_join,
+                                          )
+                                        : Container(),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                   Visibility(
                     visible: controller.isselected == -1 ? false : true,
                     child: controller.isshift
@@ -216,12 +276,12 @@ class HomeScreen extends StatelessWidget {
                                   child: ElevatedButton(
                                     style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all<Color>(
+                                          WidgetStateProperty.all<Color>(
                                               controller.isselected < -1
                                                   ? ColorsValue
                                                       .mainwithopacitycolor
                                                   : ColorsValue.maincolor1),
-                                      shape: MaterialStateProperty.all<
+                                      shape: WidgetStateProperty.all<
                                           RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -231,7 +291,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                     ),
                                     onPressed: () {
-                                      // controller.postShiftOrder();
+                                      controller.postShiftOrder();
                                     },
                                     child: Padding(
                                       padding: Dimens.edgeInsets0_10_0_10,
@@ -270,8 +330,14 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                         ),
                                         onPressed: () {
-                                          controller.isselected == 0;
-                                          controller.update();
+                                          if (controller.isjoin) {
+                                            controller.isjoin = false;
+                                            controller.isselected = -1;
+                                            for (var data
+                                                in controller.tableList) {
+                                              data.isSelect = false;
+                                            }
+                                          }
                                         },
                                         child: Padding(
                                           padding: Dimens.edgeInsets0_10_0_10,

@@ -7,7 +7,7 @@ GetOneCategoryModel getOneCategoryModelFromJson(String str) =>
 
 class GetOneCategoryModel {
   String? message;
-  List<oneCategoryDatum>? data;
+  List<OneCategoryDatum>? data;
   int? status;
   bool? isSuccess;
 
@@ -23,8 +23,8 @@ class GetOneCategoryModel {
         message: json["Message"],
         data: json["Data"] == null
             ? []
-            : List<oneCategoryDatum>.from(
-                json["Data"]!.map((x) => oneCategoryDatum.fromJson(x))),
+            : List<OneCategoryDatum>.from(
+                json["Data"]!.map((x) => OneCategoryDatum.fromJson(x))),
         status: json["Status"],
         isSuccess: json["IsSuccess"],
       );
@@ -39,7 +39,7 @@ class GetOneCategoryModel {
       };
 }
 
-class oneCategoryDatum {
+class OneCategoryDatum {
   String? id;
   Category? category;
   String? name;
@@ -49,10 +49,11 @@ class oneCategoryDatum {
   bool? status;
   int? createTimestamp;
   DateTime? createdAt;
-  num itemCounter;
-  TextEditingController? remarkTextEditingController;
+  int itemCount;
+  String? remark;
+  bool isAdded;
 
-  oneCategoryDatum({
+  OneCategoryDatum({
     this.id,
     this.category,
     this.name,
@@ -62,12 +63,13 @@ class oneCategoryDatum {
     this.status,
     this.createTimestamp,
     this.createdAt,
-    this.itemCounter = 0,
-    this.remarkTextEditingController,
+    this.itemCount = 0,
+    this.remark = "",
+    this.isAdded = false,
   });
 
-  factory oneCategoryDatum.fromJson(Map<String, dynamic> json) =>
-      oneCategoryDatum(
+  factory OneCategoryDatum.fromJson(Map<String, dynamic> json) =>
+      OneCategoryDatum(
         id: json["_id"],
         category: json["category"] == null
             ? null
