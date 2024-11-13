@@ -247,9 +247,14 @@ abstract class Utility {
   }
 
   /// URL Launcher
-  static void launchURL(String url) async => await canLaunchUrl(Uri.parse(url))
-      ? await canLaunchUrl(Uri.parse(url))
-      : showDialog('Could not open $url');
+  static void launchLinkURL(String url) async {
+    await launchUrl(Uri.parse(url)).onError(
+      (error, stackTrace) {
+        print("Url is not valid!");
+        return false;
+      },
+    );
+  }
 
   /// Show info dialog
   static void showDialog(

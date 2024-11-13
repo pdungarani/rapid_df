@@ -8,5 +8,6 @@ abstract class LocalKeys {
   static const isManager = 'is_manager';
   static const parcelAccess = 'parcel_access';
   static const tableId = 'tableId';
+  static const tableNum = 'tableNum';
   static const orderId = 'orderId';
 }

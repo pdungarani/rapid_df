@@ -1,4 +1,8 @@
+import 'package:final_df/domain/models/create_model.dart';
+import 'package:final_df/domain/models/downloadKot_model.dart';
+
 import '../../../domain/domain.dart';
+import '../../../domain/models/createKot_model.dart';
 import '../../../domain/models/getOneCategory_model.dart';
 
 class CategoriesItemPresenter {
@@ -44,5 +48,38 @@ class CategoriesItemPresenter {
         isLoading: isLoading,
         search: search,
         categoryId: categoryId,
+      );
+
+  Future<CreateKotModel?> createKot({
+    bool isLoading = false,
+    required String tableId,
+    required List<Item> items,
+  }) async =>
+      await categoriesItemUsecases.createKot(
+        isLoading: isLoading,
+        tableId: tableId,
+        items: items,
+      );
+
+  Future<GetOneKotModel?> getOneKots({
+    bool isLoading = false,
+    required String tableId,
+    required String kotId,
+  }) async =>
+      await categoriesItemUsecases.getOneKots(
+        isLoading: isLoading,
+        tableId: tableId,
+        kotId: kotId,
+      );
+
+  Future<DownloadKotModel?> downloadKot({
+    required String tableId,
+    required String kotId,
+    bool isLoading = false,
+  }) async =>
+      await categoriesItemUsecases.downloadKot(
+        isLoading: isLoading,
+        tableId: tableId,
+        kotId: kotId,
       );
 }

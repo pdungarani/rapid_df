@@ -206,7 +206,7 @@ class Repository {
       if (getProfileModel.status == 200) {
         return getProfileModel;
       } else {
-        return null;
+        return getProfileModel;
       }
     } catch (_) {
       Utility.closeDialog();

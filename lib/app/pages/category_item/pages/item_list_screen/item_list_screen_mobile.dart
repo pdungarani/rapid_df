@@ -11,19 +11,7 @@ class ItemListScreenMobile extends StatelessWidget {
     return GetBuilder<CategoriesItemController>(
       initState: (state) {
         var controller = Get.find<CategoriesItemController>();
-
-        // if (!controller.isParcel &&
-        //     controller.kotId != "" &&
-        //     controller.subKotId != "") {
-        //   controller.getOneKot(
-        //       controller.kotId ?? "", controller.subKotId ?? "");
-        // } else {
-        //   controller.parcelId = Get.arguments[0] ?? "";
-        //   if (controller.isParcel &&
-        //       (controller.parcelId?.isNotEmpty ?? false)) {
-        //     controller.getOneParcel();
-        //   }
-        // }
+        controller.getOneKots(Get.arguments ?? "");
       },
       builder: (controller) => Scaffold(
         backgroundColor: ColorsValue.white,
@@ -36,8 +24,8 @@ class ItemListScreenMobile extends StatelessWidget {
           leading: InkWell(
             onTap: () {
               Get.back();
-              // Get.offAllNamed(Routes.kotScreen,
-              //     arguments: ["", controller.isParcel, 1]);
+              Get.offAllNamed(Routes.kotScreenMobile,
+                  arguments: controller.tableId);
             },
             child: Padding(
               padding: Dimens.edgeInsets10,
@@ -73,46 +61,9 @@ class ItemListScreenMobile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Token",
-                        // controller.isParcel
-                        //     ? "Token no : ${controller.getOneParcelModel?.data?.token ?? 0}"
-                        //         .toUpperCase()
-                        //     : controller.kotCount == 0
-                        //         ? "KOT : ${controller.kotDetailData?.kotNo ?? 1}"
-                        //             .toUpperCase()
-                        //         : "KOT : ${controller.kotCount + 1}"
-                        //             .toUpperCase(),
+                        "Kot : ${controller.getOneKotData?.kotNo.toString() ?? ""}",
                         style: Styles.main70016,
                       ),
-                      Visibility(
-                        visible: controller.isParcel
-                            ? false
-                            : controller.subKotId != ""
-                                ? false
-                                : true,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorsValue.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                Dimens.six,
-                              ),
-                              side: BorderSide(
-                                color: ColorsValue.maincolor1,
-                                width: Dimens.one,
-                              ),
-                            ),
-                          ),
-                          onPressed: () {
-                            // RouteManagement.goToCategoriesScreen(
-                            //     controller.isParcel);
-                          },
-                          child: Text(
-                            "additem".tr,
-                            style: Styles.maintab60014,
-                          ),
-                        ),
-                      )
                     ],
                   ),
                 ),
@@ -132,24 +83,25 @@ class ItemListScreenMobile extends StatelessWidget {
                     child: Row(
                       children: [
                         Expanded(
-                            flex: 2,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  "srcode".tr,
-                                  style: Styles.titlestyle70014,
-                                ),
-                                Text(
-                                  "menuremark".tr,
-                                  style: Styles.titlestyle70014,
-                                ),
-                                Text(
-                                  "",
-                                  style: Styles.titlestyle70014,
-                                ),
-                              ],
-                            )),
+                          flex: 2,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "srcode".tr,
+                                style: Styles.titlestyle70014,
+                              ),
+                              Text(
+                                "menuremark".tr,
+                                style: Styles.titlestyle70014,
+                              ),
+                              Text(
+                                "",
+                                style: Styles.titlestyle70014,
+                              ),
+                            ],
+                          ),
+                        ),
                         Dimens.boxWidth15,
                         Expanded(
                           flex: 2,
@@ -175,20 +127,6 @@ class ItemListScreenMobile extends StatelessWidget {
                     ),
                   ),
                 ),
-                Visibility(
-                  visible: controller.getCategoryItemList.isEmpty,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Dimens.boxHeight20,
-                      Center(
-                        child: SvgPicture.asset(
-                          AssetConstants.ic_empty_img,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 Expanded(
                   child: ListView.separated(
                     separatorBuilder: (context, index) {
@@ -198,263 +136,11 @@ class ItemListScreenMobile extends StatelessWidget {
                         color: ColorsValue.secondorytext,
                       );
                     },
-                    itemCount: controller.getCategoryItemList.length,
+                    itemCount: controller.getOneKotData?.items?.length ?? 0,
                     itemBuilder: (context, index) {
-                      var item = controller.getCategoryItemList[index];
-                      return controller.getCategoryItemList.isEmpty
-                          ? Center(
-                              child: SvgPicture.asset(
-                                AssetConstants.ic_empty_img,
-                              ),
-                            )
-                          : InkWell(
-                              // onTap:
-                              //     Get.find<Repository>().getBoolValue(
-                              //                 LocalKeys.isManager) &&
-                              //             !controller.isParcel
-                              //         ? () {
-                              //             showDialog(
-                              //                 context: context,
-                              //                 builder: (context) {
-                              //                   return StatefulBuilder(builder:
-                              //                       (context, setState) {
-                              //                     setState(() {
-                              //                       print(Get.find<
-                              //                               BottombarController>()
-                              //                           .selectedItem[index]
-                              //                           .remark);
-                              //                       controller
-                              //                           .remarkAddItemController
-                              //                           .text = Get.find<
-                              //                                   BottombarController>()
-                              //                               .selectedItem[index]
-                              //                               .remark ??
-                              //                           "";
-                              //                     });
-                              //                     return Column(
-                              //                       mainAxisAlignment:
-                              //                           MainAxisAlignment
-                              //                               .center,
-                              //                       mainAxisSize:
-                              //                           MainAxisSize.min,
-                              //                       children: [
-                              //                         Material(
-                              //                           color:
-                              //                               Colors.transparent,
-                              //                           child: Padding(
-                              //                             padding: Dimens
-                              //                                 .edgeInsets20_0_20_0,
-                              //                             child: Container(
-                              //                               decoration:
-                              //                                   BoxDecoration(
-                              //                                       borderRadius:
-                              //                                           BorderRadius
-                              //                                               .all(
-                              //                                         Radius.circular(
-                              //                                             Dimens
-                              //                                                 .sixteen),
-                              //                                       ),
-                              //                                       color: ColorsValue
-                              //                                           .white),
-                              //                               width: Get.width,
-                              //                               child: Padding(
-                              //                                 padding: Dimens
-                              //                                     .edgeInsets20,
-                              //                                 child: Column(
-                              //                                   crossAxisAlignment:
-                              //                                       CrossAxisAlignment
-                              //                                           .start,
-                              //                                   children: [
-                              //                                     Text(
-                              //                                       "qtaandremark"
-                              //                                           .tr
-                              //                                           .toUpperCase(),
-                              //                                       style: Styles
-                              //                                           .underlinetitlestyle70018,
-                              //                                     ),
-                              //                                     Dimens
-                              //                                         .boxHeight20,
-                              //                                     Row(
-                              //                                       children: [
-                              //                                         GestureDetector(
-                              //                                           onTap:
-                              //                                               () {
-                              //                                             Get.find<BottombarController>().selectedItem[index].itemCount > 0
-                              //                                                 ? Get.find<BottombarController>().selectedItem[index].itemCount--
-                              //                                                 : null;
-                              //                                             setState(
-                              //                                                 () {});
-                              //                                           },
-                              //                                           child:
-                              //                                               Container(
-                              //                                             height:
-                              //                                                 Dimens.thirty,
-                              //                                             width:
-                              //                                                 Dimens.thirty,
-                              //                                             decoration: BoxDecoration(
-                              //                                                 color: ColorsValue.whitee,
-                              //                                                 borderRadius: BorderRadius.all(
-                              //                                                   Radius.circular(Dimens.six),
-                              //                                                 ),
-                              //                                                 border: Border.all(color: ColorsValue.maincolor1)),
-                              //                                             child:
-                              //                                                 Padding(
-                              //                                               padding:
-                              //                                                   Dimens.edgeInsets8_0_8_0,
-                              //                                               child:
-                              //                                                   SvgPicture.asset(AssetConstants.minusicon),
-                              //                                             ),
-                              //                                           ),
-                              //                                         ),
-                              //                                         Dimens
-                              //                                             .boxWidth10,
-                              //                                         Text(Get.find<
-                              //                                                 BottombarController>()
-                              //                                             .selectedItem[
-                              //                                                 index]
-                              //                                             .itemCount
-                              //                                             .toString()),
-                              //                                         Dimens
-                              //                                             .boxWidth10,
-                              //                                         GestureDetector(
-                              //                                           onTap:
-                              //                                               () {
-                              //                                             Get.find<BottombarController>()
-                              //                                                 .selectedItem[index]
-                              //                                                 .itemCount++;
-                              //                                             setState(
-                              //                                                 () {});
-                              //                                           },
-                              //                                           child:
-                              //                                               Container(
-                              //                                             height:
-                              //                                                 Dimens.thirty,
-                              //                                             width:
-                              //                                                 Dimens.thirty,
-                              //                                             decoration: BoxDecoration(
-                              //                                                 color: ColorsValue.whitee,
-                              //                                                 borderRadius: BorderRadius.all(
-                              //                                                   Radius.circular(Dimens.six),
-                              //                                                 ),
-                              //                                                 border: Border.all(color: ColorsValue.maincolor1)),
-                              //                                             child:
-                              //                                                 Padding(
-                              //                                               padding:
-                              //                                                   Dimens.edgeInsets8_0_8_0,
-                              //                                               child:
-                              //                                                   SvgPicture.asset(AssetConstants.pluseicon),
-                              //                                             ),
-                              //                                           ),
-                              //                                         )
-                              //                                       ],
-                              //                                     ),
-                              //                                     Dimens
-                              //                                         .boxHeight20,
-                              //                                     Text(
-                              //                                       "remark".tr,
-                              //                                       style: Styles
-                              //                                           .main60014,
-                              //                                     ),
-                              //                                     TextFormField(
-                              //                                       controller:
-                              //                                           controller
-                              //                                               .remarkAddItemController,
-                              //                                       decoration:
-                              //                                           InputDecoration(
-                              //                                         hintText:
-                              //                                             'hinttext'
-                              //                                                 .tr,
-                              //                                       ),
-                              //                                       maxLines: 3,
-                              //                                     ),
-                              //                                     Dimens
-                              //                                         .boxHeight20,
-                              //                                     Row(
-                              //                                       children: [
-                              //                                         Expanded(
-                              //                                           flex: 2,
-                              //                                           child:
-                              //                                               Padding(
-                              //                                             padding:
-                              //                                                 Dimens.edgeInsets8,
-                              //                                             child:
-                              //                                                 ElevatedButton(
-                              //                                               style:
-                              //                                                   ButtonStyle(
-                              //                                                 backgroundColor: MaterialStateProperty.all<Color>(ColorsValue.whitetext),
-                              //                                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              //                                                   RoundedRectangleBorder(
-                              //                                                     borderRadius: BorderRadius.all(
-                              //                                                       Radius.circular(Dimens.eight),
-                              //                                                     ),
-                              //                                                     side: BorderSide(
-                              //                                                       color: ColorsValue.greyLight,
-                              //                                                     ),
-                              //                                                   ),
-                              //                                                 ),
-                              //                                               ),
-                              //                                               onPressed:
-                              //                                                   () {
-                              //                                                 controller.remarkAddItemController.clear();
-                              //                                                 Get.back();
-                              //                                               },
-                              //                                               child:
-                              //                                                   Padding(
-                              //                                                 padding: Dimens.edgeInsets0_12_0_12,
-                              //                                                 child: Text("cancle".tr.toUpperCase(), style: Styles.main60014),
-                              //                                               ),
-                              //                                             ),
-                              //                                           ),
-                              //                                         ),
-                              //                                         Expanded(
-                              //                                           flex: 2,
-                              //                                           child:
-                              //                                               Padding(
-                              //                                             padding:
-                              //                                                 Dimens.edgeInsets0,
-                              //                                             child:
-                              //                                                 ElevatedButton(
-                              //                                               style:
-                              //                                                   ButtonStyle(
-                              //                                                 backgroundColor: MaterialStateProperty.all<Color>(ColorsValue.maincolor1),
-                              //                                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              //                                                   RoundedRectangleBorder(
-                              //                                                     borderRadius: BorderRadius.all(
-                              //                                                       Radius.circular(Dimens.eight),
-                              //                                                     ),
-                              //                                                   ),
-                              //                                                 ),
-                              //                                               ),
-                              //                                               onPressed:
-                              //                                                   () {
-                              //                                                 controller.postManagerEditKot(controller.kotId ?? "", controller.subKotId ?? "", "", false);
-                              //                                                 Get.back();
-                              //                                               },
-                              //                                               child:
-                              //                                                   Padding(
-                              //                                                 padding: Dimens.edgeInsets0_12_0_12,
-                              //                                                 child: Text(
-                              //                                                   "submit".tr.toUpperCase(),
-                              //                                                   style: Styles.white14,
-                              //                                                 ),
-                              //                                               ),
-                              //                                             ),
-                              //                                           ),
-                              //                                         )
-                              //                                       ],
-                              //                                     ),
-                              //                                   ],
-                              //                                 ),
-                              //                               ),
-                              //                             ),
-                              //                           ),
-                              //                         )
-                              //                       ],
-                              //                     );
-                              //                   });
-                              //                 });
-                              //           }
-                              //         : () {},
+                      var itemData = controller.getOneKotData?.items?[index];
+                      return itemData != null
+                          ? InkWell(
                               child: Padding(
                                 padding: Dimens.edgeInsets20_8_20_8,
                                 child: Row(
@@ -462,18 +148,22 @@ class ItemListScreenMobile extends StatelessWidget {
                                     Expanded(
                                       flex: 2,
                                       child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            item.code.toString(),
+                                            itemData?.item?.code.toString() ??
+                                                "",
                                             style: Styles.secondrytext70014,
                                           ),
                                           Flexible(
                                             child: Padding(
                                               padding: Dimens.edgeInsetsLeft10,
                                               child: Text(
-                                                "${item.name}".toUpperCase(),
+                                                "${itemData?.item?.name}"
+                                                    .toUpperCase(),
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: Styles.secondrytext70014,
@@ -497,188 +187,83 @@ class ItemListScreenMobile extends StatelessWidget {
                                           Padding(
                                             padding: Dimens.edgeInsetsLeft10,
                                             child: Text(
-                                              "${item.itemCount}".toUpperCase(),
+                                              "${itemData?.quantity}"
+                                                  .toUpperCase(),
                                               style: Styles.secondrytext70014,
                                             ),
                                           ),
                                           Padding(
                                             padding: Dimens.edgeInsetsLeft10,
                                             child: Text(
-                                              "${item.originalPrice}"
+                                              "${itemData?.item?.price}"
                                                   .toUpperCase(),
                                               style: Styles.secondrytext70014,
                                             ),
                                           ),
                                           Text(
-                                            "${int.parse(item.originalPrice.toString()) * int.parse(item.itemCount.toString())}"
+                                            "${int.parse(itemData?.item?.price.toString() ?? "") * int.parse(itemData?.quantity.toString() ?? "")}"
                                                 .toUpperCase(),
                                             style: Styles.secondrytext70014,
                                           ),
                                         ],
                                       ),
                                     ),
-                                    Visibility(
-                                      visible: Get.find<Repository>()
-                                                  .getBoolValue(
-                                                      LocalKeys.isManager) &&
-                                              controller.subKotId != ""
-                                          ? true
-                                          : false,
-                                      child: InkWell(
-                                        onTap: () {
-                                          controller.postManagerEditKot(
-                                              controller.kotId,
-                                              controller.subKotId,
-                                              item.id ?? "",
-                                              true);
-                                        },
-                                        child: Icon(
-                                          Icons.remove_circle,
-                                          color: ColorsValue.redColor,
-                                          size: Dimens.twenty,
-                                        ),
-                                      ),
-                                    ),
                                   ],
                                 ),
+                              ),
+                            )
+                          : Center(
+                              child: SvgPicture.asset(
+                                AssetConstants.ic_empty_img,
                               ),
                             );
                     },
                   ),
                 ),
-                // Padding(
-                //   padding: Dimens.edgeInsets20_10_20_20,
-                //   child: Align(
-                //     alignment: Alignment.bottomCenter,
-                //     child: Row(
-                //       children: [
-                //         Visibility(
-                //           visible: controller.isParcel ? true : false,
-                //           child: Expanded(
-                //             flex: 2,
-                //             child: Padding(
-                //               padding: Dimens.edgeInsets8,
-                //               child: ElevatedButton(
-                //                 style: ElevatedButton.styleFrom(
-                //                   fixedSize: Size(
-                //                     double.infinity,
-                //                     Dimens.fourtyFour,
-                //                   ),
-                //                   backgroundColor: ColorsValue.white,
-                //                   shape: RoundedRectangleBorder(
-                //                     borderRadius: BorderRadius.circular(
-                //                       Dimens.six,
-                //                     ),
-                //                     side: BorderSide(
-                //                       color:
-                //                           controller.getOneParcelModel?.data !=
-                //                                   null
-                //                               ? ColorsValue.maincolor1
-                //                                   .withOpacity(0.4)
-                //                               : ColorsValue.maincolor1,
-                //                       width: Dimens.one,
-                //                     ),
-                //                   ),
-                //                 ),
-                //                 onPressed: controller.getOneParcelModel?.data !=
-                //                         null
-                //                     ? () {}
-                //                     : () {
-                //                         if (controller.isParcel) {
-                //                           controller.createParcelOrder(context);
-                //                         }
-                //                       },
-                //                 child: Padding(
-                //                   padding: Dimens.edgeInsets0_10_0_10,
-                //                   child: Text(
-                //                     "billgenrate".tr,
-                //                     style: controller.getOneParcelModel?.data !=
-                //                             null
-                //                         ? Styles.mainopacitytab60014
-                //                         : Styles.main60012,
-                //                   ),
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //         Visibility(
-                //           visible: controller.isParcel
-                //               ? false
-                //               : controller.subKotId != ""
-                //                   ? false
-                //                   : true,
-                //           child: Expanded(
-                //             flex: 2,
-                //             child: ElevatedButton(
-                //               style: ElevatedButton.styleFrom(
-                //                 fixedSize: Size(
-                //                   double.infinity,
-                //                   Dimens.fourtyFour,
-                //                 ),
-                //                 backgroundColor: ColorsValue.maincolor1,
-                //                 shape: RoundedRectangleBorder(
-                //                   borderRadius: BorderRadius.circular(
-                //                     Dimens.six,
-                //                   ),
-                //                 ),
-                //               ),
-                //               onPressed: () {
-                //                 controller.postAddEditOrder();
-                //               },
-                //               child: Padding(
-                //                 padding: Dimens.edgeInsets0_10_0_10,
-                //                 child: Text(
-                //                   "kotbillgenrate".tr.toUpperCase(),
-                //                   style: Styles.white60012,
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //         Visibility(
-                //           visible: controller.subKotId != "" ? true : false,
-                //           child: Expanded(
-                //             flex: 2,
-                //             child: Padding(
-                //               padding: Dimens.edgeInsets8,
-                //               child: ElevatedButton(
-                //                 style: ElevatedButton.styleFrom(
-                //                   fixedSize: Size(
-                //                     double.infinity,
-                //                     Dimens.fourtyFour,
-                //                   ),
-                //                   backgroundColor: ColorsValue.white,
-                //                   shape: RoundedRectangleBorder(
-                //                     borderRadius: BorderRadius.circular(
-                //                       Dimens.six,
-                //                     ),
-                //                     side: BorderSide(
-                //                       color: ColorsValue.maincolor1,
-                //                       width: Dimens.one,
-                //                     ),
-                //                   ),
-                //                 ),
-                //                 onPressed: () {
-                //                   controller.postDownloadKot(
-                //                       controller.kotId ?? "",
-                //                       controller.subKotId ?? "");
-                //                 },
-                //                 child: Padding(
-                //                   padding: Dimens.edgeInsets0_10_0_10,
-                //                   child: Text(
-                //                     "download_kot".tr,
-                //                     style: Styles.main60012,
-                //                   ),
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
+                Padding(
+                  padding: Dimens.edgeInsets20_10_20_20,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Padding(
+                            padding: Dimens.edgeInsets8,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: Size(
+                                  double.infinity,
+                                  Dimens.fourtyFour,
+                                ),
+                                backgroundColor: ColorsValue.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    Dimens.six,
+                                  ),
+                                  side: BorderSide(
+                                    color: ColorsValue.maincolor1,
+                                    width: Dimens.one,
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                controller.downloadKot(Get.arguments ?? "");
+                              },
+                              child: Padding(
+                                padding: Dimens.edgeInsets0_10_0_10,
+                                child: Text(
+                                  "download_kot".tr,
+                                  style: Styles.main60012,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             )
           ],

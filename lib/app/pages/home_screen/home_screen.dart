@@ -1,5 +1,6 @@
 import 'package:final_df/app/app.dart';
 import 'package:final_df/app/theme/constan.dart';
+import 'package:final_df/domain/repositories/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -65,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                   Expanded(
                     child: RefreshIndicator(
                       onRefresh: () => Future.sync(
-                        () => controller.getAssignedTables("", true, []),
+                        () => controller.getAssignedTables(),
                       ),
                       child: GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -80,7 +81,11 @@ class HomeScreen extends StatelessWidget {
                           final tableDetail = controller.tableList[index];
                           return InkWell(
                             onTap: () {
-                              RouteManagement.goToKotScreen(tableDetail);
+                              Get.find<Repository>().saveValue(
+                                  LocalKeys.tableNum,
+                                  tableDetail.tNumber.toString());
+                              RouteManagement.goToKotScreen(
+                                  tableDetail.id ?? "");
                             },
                             onLongPress: () {
                               if (controller.isselected == index) {

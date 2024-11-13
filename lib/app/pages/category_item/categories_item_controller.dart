@@ -1,6 +1,8 @@
 import 'package:final_df/app/app.dart';
-import 'package:final_df/app/pages/pages.dart';
+import 'package:final_df/data/data.dart';
 import 'package:final_df/domain/domain.dart';
+import 'package:final_df/domain/models/createKot_model.dart';
+import 'package:final_df/domain/models/create_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +12,11 @@ class CategoriesItemController extends GetxController {
   CategoriesItemController(this.categoriesItemPresenter);
 
   final CategoriesItemPresenter categoriesItemPresenter;
+
+  @override
+  onInit() {
+    super.onInit();
+  }
 
   //// ===================================================================== KotScreen ===================================================================== ////
 
@@ -119,6 +126,7 @@ class CategoriesItemController extends GetxController {
   //// ===================================================================== CategoriesItemMobile ===================================================================== ////
 
   List<CategoryItemData> getCategoryItemList = [];
+  List<CategoryItemData> addCategoryItemList = [];
 
   TextEditingController searchAddItemController = TextEditingController();
   TextEditingController remarkAddItemController = TextEditingController();
@@ -138,19 +146,28 @@ class CategoriesItemController extends GetxController {
     );
     getCategoryItemList.clear();
     if (response?.data != null) {
-      getCategoryItemList.addAll(response?.data ?? []);
+      for (var data in response?.data ?? <CategoryItemData>[]) {
+        var index =
+            addCategoryItemList.indexWhere((element) => element.id == data.id);
+        if (index.isNegative) {
+          getCategoryItemList.add(data);
+        } else {
+          getCategoryItemList.add(addCategoryItemList[index]);
+        }
+      }
     }
     update();
   }
 
   List<OneCategoryDatum> oneCategoryDatumList = [];
-  String selectedCategory = '';
+  String? selectedCategory;
+  String? categoryId;
 
   Future<void> getOneCategory() async {
     var response = await categoriesItemPresenter.getOneCategory(
       isLoading: true,
       search: "",
-      categoryId: selectedCategory,
+      categoryId: categoryId ?? "",
     );
     oneCategoryDatumList.clear();
     if (response?.data != null) {
@@ -164,4 +181,65 @@ class CategoriesItemController extends GetxController {
   bool isParcel = false;
   String? subKotId = "";
   int kotCount = 0;
+
+  String? tableId = "";
+
+  CreateKotData? kotData;
+
+  Future<void> createKot({
+    bool isLoading = true,
+    required String tableId,
+  }) async {
+    var response = await categoriesItemPresenter.createKot(
+      isLoading: isLoading,
+      tableId: tableId,
+      items: addCategoryItemList.map(
+        (e) {
+          return Item(
+            itemId: e.id,
+            quantity: e.itemCount,
+            remark: e.remark,
+          );
+        },
+      ).toList(),
+    );
+    if (response?.data != null) {
+      kotData = response?.data;
+      RouteManagement.goToItemListScreenMobile(
+        kotData?.kotId ?? "",
+      );
+      Get.find<HomeController>().getAssignedTables();
+    } else {
+      Utility.snacBar(response!.message ?? '', ColorsValue.maincolor1);
+    }
+    update();
+  }
+
+  GetOneKotData? getOneKotData = GetOneKotData();
+
+  Future<void> getOneKots(String? kotId) async {
+    var response = await categoriesItemPresenter.getOneKots(
+      isLoading: true,
+      tableId: tableId ?? "",
+      kotId: kotId ?? "",
+    );
+    getOneKotData = null;
+    if (response?.data != null) {
+      getOneKotData = response?.data;
+    }
+    update();
+  }
+
+  Future<void> downloadKot(String? kotId) async {
+    var response = await categoriesItemPresenter.downloadKot(
+      isLoading: true,
+      tableId: tableId ?? "",
+      kotId: kotId ?? "",
+    );
+    if (response?.data != null) {
+      Utility.launchLinkURL(ApiWrapper.imageUrl + (response?.data?.path ?? ""));
+      // getAllKots(tableId ?? "");
+    }
+    update();
+  }
 }

@@ -111,9 +111,9 @@ class AddItemPopupScreen extends StatelessWidget {
                               child: ElevatedButton(
                                 style: ButtonStyle(
                                   backgroundColor:
-                                      MaterialStateProperty.all<Color>(
+                                      WidgetStateProperty.all<Color>(
                                           ColorsValue.whitetext),
-                                  shape: MaterialStateProperty.all<
+                                  shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
@@ -163,19 +163,17 @@ class AddItemPopupScreen extends StatelessWidget {
                                     selectedItem.isAdded = false;
                                     selectedItem.itemCount = controller.count;
                                   }
-                                  selectedItem.remark =
-                                      controller.remarkAddItemController.text;
                                   controller.remarkAddItemController.clear();
-                                  // var i = controller.internalItemList
-                                  //     .indexWhere((element) =>
-                                  //         element.id == selectedItem.id);
-                                  // if (i.isNegative) {
-                                  //   controller.internalItemList
-                                  //       .add(selectedItem);
-                                  // } else {
-                                  //   controller.internalItemList[i] =
-                                  //       selectedItem;
-                                  // }
+                                  var i = controller.addCategoryItemList
+                                      .indexWhere((element) =>
+                                          element.id == selectedItem.id);
+                                  if (i.isNegative) {
+                                    controller.addCategoryItemList
+                                        .add(selectedItem);
+                                  } else {
+                                    controller.addCategoryItemList[i] =
+                                        selectedItem;
+                                  }
                                   controller.update();
                                   Get.back();
                                 },

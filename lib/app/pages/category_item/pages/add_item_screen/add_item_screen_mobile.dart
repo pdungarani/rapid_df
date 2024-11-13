@@ -1,4 +1,5 @@
 import 'package:final_df/app/app.dart';
+import 'package:final_df/domain/models/create_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -12,7 +13,7 @@ class AddItemScreenMobile extends StatelessWidget {
     return GetBuilder<CategoriesItemController>(
       initState: (s) {
         var controller = Get.find<CategoriesItemController>();
-        controller.selectedCategory = Get.arguments;
+        controller.categoryId = Get.arguments;
         controller.postCategoryItem(
           categoryId: Get.arguments,
           search: controller.searchAddItemController.text,
@@ -176,7 +177,7 @@ class AddItemScreenMobile extends StatelessWidget {
                                                       ColorsValue.white,
                                                   underline: Container(),
                                                   hint: Text(
-                                                      'select_category'.tr,
+                                                      'selectcategory'.tr,
                                                       style: Styles.bold14),
                                                   padding: EdgeInsets.only(
                                                       left: Dimens.ten,
@@ -223,7 +224,8 @@ class AddItemScreenMobile extends StatelessWidget {
                                                         controller.postCategoryItem(
                                                             search: "",
                                                             categoryId: controller
-                                                                .selectedCategory);
+                                                                    .selectedCategory ??
+                                                                "");
                                                         controller.isFilter =
                                                             false;
                                                         Get.back();
@@ -265,7 +267,8 @@ class AddItemScreenMobile extends StatelessWidget {
                                                         controller.postCategoryItem(
                                                             search: "",
                                                             categoryId: controller
-                                                                .selectedCategory);
+                                                                    .selectedCategory ??
+                                                                "");
                                                         controller.isFilter =
                                                             true;
                                                         Get.back();
@@ -461,9 +464,9 @@ class AddItemScreenMobile extends StatelessWidget {
                           width: Get.width,
                           child: ElevatedButton(
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
+                              backgroundColor: WidgetStateProperty.all(
                                   ColorsValue.maincolor1),
-                              shape: MaterialStateProperty.all<
+                              shape: WidgetStateProperty.all<
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                   borderRadius:
@@ -472,18 +475,9 @@ class AddItemScreenMobile extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              // for (var data in controller.internalItemList) {
-                              //   if (data.isAdded &&
-                              //       !Get.find<BottombarController>()
-                              //           .selectedItem
-                              //           .any((element) =>
-                              //               element.id == data.id)) {
-                              //     Get.find<BottombarController>()
-                              //         .selectedItem
-                              //         .add(data);
-                              //   }
-                              // }
-                              RouteManagement.goToItemListScreenMobile();
+                              controller.createKot(
+                                tableId: controller.tableId ?? "",
+                              );
                               controller.update();
                             },
                             child: Padding(

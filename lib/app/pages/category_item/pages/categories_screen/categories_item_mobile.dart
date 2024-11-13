@@ -12,6 +12,7 @@ class CategoriesItemMobile extends StatelessWidget {
     return GetBuilder<CategoriesItemController>(
       initState: (state) {
         var controller = Get.find<CategoriesItemController>();
+        controller.tableId = Get.arguments ?? "";
         controller.getAllCategory(search: "");
       },
       builder: (controller) {

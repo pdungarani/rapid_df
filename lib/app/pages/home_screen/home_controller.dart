@@ -12,7 +12,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getAssignedTables("", true, []);
+    getAssignedTables();
   }
 
   int selection = 1;
@@ -25,29 +25,13 @@ class HomeController extends GetxController {
   List<GetAssignDatum> tableList = [];
   List<String> joinTableList = [];
 
-  Future<void> getAssignedTables(
-      String orderIds, bool isLoad, List<String> tableNumbers) async {
+  Future<void> getAssignedTables() async {
     var response = await homePresenter.getAssignedTables(
-      isLoading: isLoad,
+      isLoading: true,
     );
     tableList.clear();
     if (response?.data != null) {
-      if (orderIds == "") {
-        tableList.addAll(response?.data ?? []);
-      } else {
-        tableList.addAll(response?.data ?? []);
-        // for (var data in response?.data ?? []) {
-        //   if (data.orderid?.id == orderIds &&
-        //       tableNumbers.any((element) =>
-        //           element ==
-        //           Get.find<CategoriesItemController>()
-        //               .tableNumber
-        //               .toString())) {
-        //     // Get.find<CategoriesItemController>()
-        //     //     .getOneOrder(data.kotId ?? "", false);
-        //   }
-        // }
-      }
+      tableList.addAll(response?.data ?? []);
       update();
     }
   }
@@ -66,7 +50,7 @@ class HomeController extends GetxController {
       if (response.hasError == true) {
         Utility.snacBar(res["Message"], ColorsValue.maincolor1);
       } else {
-        await getAssignedTables("", true, []);
+        await getAssignedTables();
       }
       update();
     }

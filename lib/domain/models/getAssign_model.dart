@@ -49,7 +49,6 @@ class GetAssignDatum {
   int? capacity;
   bool? isOccupied;
   bool? isCompleted;
-  dynamic order;
   bool? isSelect;
 
   GetAssignDatum({
@@ -59,7 +58,6 @@ class GetAssignDatum {
     this.capacity,
     this.isOccupied,
     this.isCompleted,
-    this.order,
     this.isSelect = false,
   });
 
@@ -70,7 +68,6 @@ class GetAssignDatum {
         capacity: json["capacity"],
         isOccupied: json["is_occupied"],
         isCompleted: json["is_completed"],
-        order: json["order"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,6 +77,5 @@ class GetAssignDatum {
         "capacity": capacity,
         "is_occupied": isOccupied,
         "is_completed": isCompleted,
-        "order": order,
       };
 }

@@ -1,4 +1,5 @@
 import 'package:final_df/app/app.dart';
+import 'package:final_df/domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -10,15 +11,15 @@ class KotScreenMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<CategoriesItemController>(initState: (state) {
       var controller = Get.find<CategoriesItemController>();
-      controller.getAssignDatum = Get.arguments;
-      controller.getAllKots(controller.getAssignDatum?.id ?? "");
+      controller.tableId = Get.arguments ?? "";
+      controller.getAllKots(Get.arguments ?? "");
     }, builder: (controller) {
       return Scaffold(
         backgroundColor: ColorsValue.white,
         appBar: AppBar(
           titleTextStyle: Styles.white70018,
           title: Text(
-            "Table No : ${controller.getAssignDatum?.tNumber ?? controller.tableNumber}"
+            "Table No : ${Get.find<Repository>().getStringValue(LocalKeys.tableNum)}"
                 .tr
                 .toUpperCase(),
           ),
@@ -54,7 +55,9 @@ class KotScreenMobile extends StatelessWidget {
             ),
             backgroundColor: ColorsValue.maincolor1,
             onPressed: () {
-              RouteManagement.goToCategoriesItemMobile();
+              controller.addCategoryItemList.clear();
+              controller.update();
+              RouteManagement.goToCategoriesItemMobile(Get.arguments ?? "");
             },
             child: Icon(
               Icons.add,
@@ -78,17 +81,16 @@ class KotScreenMobile extends StatelessWidget {
                 child: Column(
                   children: [
                     Expanded(
-                      child: controller.kotList.length > 0
+                      child: controller.kotList.isNotEmpty
                           ? ListView.builder(
                               itemCount: controller.kotList.length,
                               itemBuilder: ((context, index) {
                                 var item = controller.kotList[index];
                                 return InkWell(
                                   onTap: () {
-                                    // RouteManagement.goToItemListScreen(
-                                    //     controller.kotId ?? "",
-                                    //     controller.isParcel,
-                                    //     controller.kotList[index].id);
+                                    RouteManagement
+                                        .goToItemListScreenMobileGetOne(
+                                            controller.kotList[index].id ?? "");
                                   },
                                   child: Padding(
                                     padding: Dimens.edgeInsets0_10_0_10,
