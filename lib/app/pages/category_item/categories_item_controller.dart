@@ -13,11 +13,6 @@ class CategoriesItemController extends GetxController {
 
   final CategoriesItemPresenter categoriesItemPresenter;
 
-  @override
-  onInit() {
-    super.onInit();
-  }
-
   //// ===================================================================== KotScreen ===================================================================== ////
 
   List<KotDatum> kotList = [];
@@ -32,6 +27,19 @@ class CategoriesItemController extends GetxController {
     kotList.clear();
     if (response?.data != null) {
       kotList.addAll(response?.data ?? []);
+    }
+    update();
+  }
+
+  Future<void> postJointTable(String tableId) async {
+    var response = await categoriesItemPresenter.postJointTable(
+      isLoading: true,
+      tables: [tableId],
+    );
+    if (response != null) {
+      getAllKots(tableId ?? "");
+      Get.find<HomeController>().getAssignedTables();
+      Utility.getAssignDatum?.isCompleted = true;
     }
     update();
   }

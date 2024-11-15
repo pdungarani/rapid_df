@@ -271,4 +271,21 @@ class ConnectHelper {
     );
     return response;
   }
+
+  Future<ResponseModel> postJointTable({
+    required List<String> tables,
+    bool isLoading = false,
+  }) async {
+    var data = {
+      'tables': tables,
+    };
+    var response = await apiWrapper.makeRequest(
+      EndPoints.postJointTable,
+      Request.post,
+      data,
+      isLoading,
+      Utility.commonHeader(),
+    );
+    return response;
+  }
 }

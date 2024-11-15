@@ -22,4 +22,13 @@ class HomePresenter {
         to: to,
         isLoading: isLoading,
       );
+
+  Future<ResponseModel?> postJointTable({
+    required List<String> tables,
+    bool isLoading = false,
+  }) async =>
+      await homeUsecases.postJointTable(
+        tables: tables,
+        isLoading: isLoading,
+      );
 }

@@ -5,13 +5,21 @@ import 'package:get/get.dart';
 ThemeData themeData(BuildContext context) => ThemeData(
       disabledColor: const Color(0xFFEEEEEE),
       bottomSheetTheme: const BottomSheetThemeData(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
       ),
-      dialogBackgroundColor: ColorsValue.white,
+      dialogBackgroundColor: ColorsValue.whiteColor,
+      datePickerTheme: DatePickerThemeData(
+        backgroundColor: ColorsValue.whiteColor,
+        todayBackgroundColor: WidgetStatePropertyAll(
+          ColorsValue.maincolor1,
+        ),
+        todayForegroundColor: const WidgetStatePropertyAll(
+          Colors.white,
+        ),
+      ),
       dropdownMenuTheme: DropdownMenuThemeData(
         inputDecorationTheme: InputDecorationTheme(
-          fillColor: ColorsValue.white,
-          filled: true,
+          fillColor: Colors.white,
         ),
       ),
       shadowColor: const Color(0xFFDDE3FD),

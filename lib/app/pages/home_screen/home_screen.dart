@@ -81,6 +81,7 @@ class HomeScreen extends StatelessWidget {
                           final tableDetail = controller.tableList[index];
                           return InkWell(
                             onTap: () {
+                              Utility.getAssignDatum = tableDetail;
                               Get.find<Repository>().saveValue(
                                   LocalKeys.tableNum,
                                   tableDetail.tNumber.toString());
@@ -88,6 +89,7 @@ class HomeScreen extends StatelessWidget {
                                   tableDetail.id ?? "");
                             },
                             onLongPress: () {
+                              controller.joinTableList.clear();
                               if (controller.isselected == index) {
                                 controller.isselected = -1;
                                 controller.tableList[index].isSelect = false;
@@ -170,6 +172,24 @@ class HomeScreen extends StatelessWidget {
                                                     .isCompleted! &&
                                                 controller.isselected != index
                                             ? Checkbox(
+                                                fillColor:
+                                                    WidgetStatePropertyAll(
+                                                  controller.tableList[index]
+                                                              .isSelect ??
+                                                          false
+                                                      ? ColorsValue.maincolor1
+                                                      : ColorsValue.white,
+                                                ),
+                                                shape: BeveledRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                    Dimens.two,
+                                                  ),
+                                                ),
+                                                side: BorderSide(
+                                                  color: ColorsValue.maincolor1,
+                                                  width: Dimens.one,
+                                                ),
                                                 activeColor:
                                                     ColorsValue.maincolor1,
                                                 focusColor:
@@ -320,9 +340,9 @@ class HomeScreen extends StatelessWidget {
                                       child: ElevatedButton(
                                         style: ButtonStyle(
                                           backgroundColor:
-                                              MaterialStateProperty.all<Color>(
+                                              WidgetStateProperty.all<Color>(
                                                   ColorsValue.whitetext),
-                                          shape: MaterialStateProperty.all<
+                                          shape: WidgetStateProperty.all<
                                               RoundedRectangleBorder>(
                                             RoundedRectangleBorder(
                                               borderRadius: BorderRadius.all(
@@ -343,6 +363,7 @@ class HomeScreen extends StatelessWidget {
                                               data.isSelect = false;
                                             }
                                           }
+                                          controller.update();
                                         },
                                         child: Padding(
                                           padding: Dimens.edgeInsets0_10_0_10,
@@ -372,7 +393,9 @@ class HomeScreen extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          controller.postJointTable();
+                                        },
                                         child: Padding(
                                           padding: Dimens.edgeInsets0_10_0_10,
                                           child: Text(

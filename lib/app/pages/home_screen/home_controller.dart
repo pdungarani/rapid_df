@@ -23,7 +23,6 @@ class HomeController extends GetxController {
   String selectaddressecommerce = '0';
 
   List<GetAssignDatum> tableList = [];
-  List<String> joinTableList = [];
 
   Future<void> getAssignedTables() async {
     var response = await homePresenter.getAssignedTables(
@@ -54,5 +53,25 @@ class HomeController extends GetxController {
       }
       update();
     }
+  }
+
+  List<String> joinTableList = [];
+
+  Future<void> postJointTable() async {
+    var response = await homePresenter.postJointTable(
+      isLoading: true,
+      tables: joinTableList,
+    );
+    if (response != null) {
+      isshift = false;
+      isjoin = false;
+      isselected = -1;
+      joinTableList.clear();
+      for (var data in tableList) {
+        data.isSelect = false;
+      }
+      await getAssignedTables();
+    }
+    update();
   }
 }

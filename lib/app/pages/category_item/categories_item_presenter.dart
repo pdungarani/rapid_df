@@ -82,4 +82,13 @@ class CategoriesItemPresenter {
         tableId: tableId,
         kotId: kotId,
       );
+
+  Future<ResponseModel?> postJointTable({
+    required List<String> tables,
+    bool isLoading = false,
+  }) async =>
+      await categoriesItemUsecases.postJointTable(
+        tables: tables,
+        isLoading: isLoading,
+      );
 }

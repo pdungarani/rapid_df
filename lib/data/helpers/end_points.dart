@@ -13,4 +13,5 @@ class EndPoints {
   static String postShiftOrder = 'user/orders/shift';
   static String postJointTable = 'user/orders/complete';
   static String postCategoryItem = 'user/items/getall';
+
 }

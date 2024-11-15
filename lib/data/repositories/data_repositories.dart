@@ -175,4 +175,13 @@ class DataRepository extends DomainRepository {
         categoryId: categoryId,
         isLoading: isLoading,
       );
+
+  Future<ResponseModel> postJointTable({
+    required List<String> tables,
+    bool isLoading = false,
+  }) async =>
+      connectHelper.postJointTable(
+        tables: tables,
+        isLoading: isLoading,
+      );
 }

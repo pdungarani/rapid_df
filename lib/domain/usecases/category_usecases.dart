@@ -81,4 +81,14 @@ class CategoryUsecases {
         tableId: tableId,
         kotId: kotId,
       );
+
+  Future<ResponseModel?> postJointTable({
+    required List<String> tables,
+    bool isLoading = false,
+  }) async =>
+      await repository.postJointTable(
+        tables: tables,
+        isLoading: isLoading,
+      );
+      
 }

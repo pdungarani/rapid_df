@@ -412,4 +412,21 @@ class Repository {
       return null;
     }
   }
+
+  Future<ResponseModel?> postJointTable({
+    required List<String> tables,
+    bool isLoading = false,
+  }) async {
+    try {
+      var response = await _dataRepository.postJointTable(
+        tables: tables,
+        isLoading: isLoading,
+      );
+      return response;
+    } catch (_) {
+      Utility.closeDialog();
+      UnimplementedError();
+      return null;
+    }
+  }
 }
